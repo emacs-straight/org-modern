@@ -514,5 +514,19 @@ Set to nil to disable the indicator."
            '(display face invisible)
          '(wrap-prefix line-prefix display face invisible))))))
 
+;;;###autoload
+(defun org-modern-agenda ()
+  "Finalize Org agenda highlighting."
+  (save-excursion
+    (save-match-data
+      (goto-char (point-min))
+      (let ((re (format " %s "
+                        (regexp-opt
+                         (append org-todo-keywords-for-agenda
+                                 org-done-keywords-for-agenda) t)))
+            (org-done-keywords org-done-keywords-for-agenda))
+        (while (re-search-forward re nil 'noerror)
+          (org-modern--todo))))))
+
 (provide 'org-modern)
 ;;; org-modern.el ends here
