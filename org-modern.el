@@ -206,11 +206,13 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   "Face used for done labels.")
 
 (defface org-modern-todo
+  ;; `:inverse-video' to use todo foreground as label background
   '((t :inherit (org-todo org-modern-label)
        :weight semibold :inverse-video t))
   "Face used for todo labels.")
 
 (defface org-modern-priority
+  ;; `:inverse-video' to use priority foreground as label background
   '((t :inherit (org-priority org-modern-label)
        :weight semibold :inverse-video t))
   "Face used for priority labels.")
@@ -224,10 +226,11 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   "Face used for active date labels.")
 
 (defface org-modern-time-active
+  ;; Use `:distant-foreground' to ensure readability if `hl-line-mode' is used.
   '((default :inherit org-modern-label :weight semibold)
     (((background light))
-     :background "gray35" :foreground "white")
-    (t :background "gray75" :foreground "black"))
+     :background "gray35" :foreground "white" :distant-foreground "black")
+    (t :background "gray75" :foreground "black" :distant-foreground "white"))
   "Face used for active time labels.")
 
 (defface org-modern-date-inactive
@@ -238,9 +241,10 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   "Face used for inactive date labels.")
 
 (defface org-modern-time-inactive
+  ;; Use `:distant-foreground' to ensure readability if `hl-line-mode' is used.
   '((default :inherit org-modern-label :background "gray50")
-    (((background light)) :foreground "gray95")
-    (t :foreground "gray5"))
+    (((background light)) :foreground "gray95" :distant-foreground "gray5")
+    (t :foreground "gray5" :distant-foreground "gray95"))
   "Face used for inactive time labels.")
 
 (defface org-modern-horizontal-rule
@@ -429,7 +433,7 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
     (save-excursion
       (goto-char (match-beginning 0))
       (add-text-properties
-       (point) (min (1+ (line-end-position)) (point-max))
+       (point) (min (line-end-position) (point-max))
        '(wrap-prefix
          #(" " 0 1 (display (left-fringe org-modern--block-begin org-block-begin-line)))
          line-prefix
@@ -443,7 +447,7 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
                 (re-search-forward
                  "^[ \t]*#\\+end_" (line-end-position) 'noerror)))
             (add-text-properties
-             (point) (min (1+ (line-end-position)) (point-max))
+             (point) (min (line-end-position) (point-max))
              '(wrap-prefix
                #(" " 0 1 (display (left-fringe org-modern--block-end org-block-begin-line)))
                line-prefix
@@ -510,7 +514,8 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
            (1 '(face nil display (space :width (3))))
            (2 'org-modern-block-keyword append))))
       (when org-modern-tag
-        '(("^\\*+.*?\\( \\)\\(:.*:\\)[ \t]*$" (0 (org-modern--tag)))))
+        `((,(concat "^\\*+.*?\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")
+           (0 (org-modern--tag)))))
       (when (and org-modern-timestamp (not org-display-custom-times))
         '(("\\(?:<\\|\\[\\)\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\(?: [[:word:]]+\\)?\\(?: [.+-]+[0-9ymwdh/]+\\)*\\)\\(\\(?: [0-9:-]+\\)?\\(?: [.+-]+[0-9ymwdh/]+\\)*\\)\\(?:>\\|\\]\\)"
            (0 (org-modern--timestamp)))
