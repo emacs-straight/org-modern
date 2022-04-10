@@ -49,7 +49,7 @@
   (when (facep 'org-modern-label)
     (set-face-attribute
      'org-modern-label nil
-     :inherit (and org-modern-variable-pitch 'variable-pitch)
+     :inherit org-modern-variable-pitch
      :box (when org-modern-label-border
             (let ((border (if (eq org-modern-label-border 'auto)
                               (max 3 (cond
@@ -76,7 +76,7 @@ A value between 0.1 and 0.4 of `line-spacing' is recommended."
   :type '(choice (const nil) (const auto) integer)
   :set #'org-modern--setter)
 
-(defcustom org-modern-star ["◉""○""◈""◇""⁕"]
+(defcustom org-modern-star ["◉""○""◈""◇""✳"]
   "Replacement strings for headline stars for each level.
 Set to nil to disable styling the headlines."
   :type '(choice (const nil) (vector string)))
@@ -170,9 +170,9 @@ If set to a string, e.g., \"‣\", the string is used as replacement for #+."
 Set to nil to disable the indicator."
   :type '(choice (const nil) (vector string)))
 
-(defcustom org-modern-variable-pitch t
-  "Prefer variable pitch for modern style."
-  :type 'boolean
+(defcustom org-modern-variable-pitch 'variable-pitch
+  "Use variable pitch for modern style labels."
+  :type 'symbol
   :set #'org-modern--setter)
 
 (defgroup org-modern-faces nil
