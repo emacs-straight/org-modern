@@ -90,8 +90,15 @@ Set to nil to disable styling the headlines."
 
 (defcustom org-modern-timestamp t
   "Prettify time stamps, e.g. <2022-03-01>.
-Set to nil to disable styling the time stamps."
-  :type 'boolean)
+Set to nil to disable styling the time stamps. In order to use custom
+timestamps, the format should be (DATE . TIME) where DATE is the format
+for date, and TIME is the format for time. DATE and TIME must be
+surrounded with space. For the syntax, refer to `format-time-string'."
+  :type '(choice
+          (const :tag "Disable time stamp styling" nil)
+          (const :tag "Enable timestamp styling" t)
+          (const :tag "Use format YYYY-MM-DD HH:MM" (" %Y-%m-%d " . " %H:%M "))
+          (cons :tag "Custom format" string string)))
 
 (defcustom org-modern-table t
   "Prettify tables."
@@ -335,36 +342,43 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
 
 (defun org-modern--timestamp ()
   "Prettify timestamps."
-  (let* ((active (eq (char-after (match-beginning 0)) ?<))
+  (let* ((beg (match-beginning 0))
+         (end (match-end 0))
+         (tbeg (match-beginning 2))
+         (tend (match-end 2))
+         (active (eq (char-after beg) ?<))
          (date-face (if active
                         'org-modern-date-active
                       'org-modern-date-inactive))
          (time-face (if active
                         'org-modern-time-active
                       'org-modern-time-inactive)))
-    (put-text-property
-     (match-beginning 0)
-     (1+ (match-beginning 0))
-     'display " ")
-    (put-text-property
-     (1- (match-end 0))
-     (match-end 0)
-     'display " ")
-    ;; year-month-day
-    (put-text-property
-     (match-beginning 0)
-     (if (eq (match-beginning 2) (match-end 2)) (match-end 0) (match-end 1))
-     'face date-face)
-    ;; hour:minute
-    (unless (eq (match-beginning 2) (match-end 2))
-      (put-text-property
-       (1- (match-end 1))
-       (match-end 1)
-       'display (format "%c " (char-before (match-end 1))))
-      (put-text-property
-       (match-beginning 2)
-       (match-end 0)
-       'face time-face))))
+    (remove-list-of-text-properties beg end '(display))
+    (if (consp org-modern-timestamp)
+        (let* ((time (save-match-data
+                       (encode-time
+                        (org-fix-decoded-time
+                         (org-parse-time-string
+                          (buffer-substring beg end))))))
+               (fmt org-modern-timestamp)
+               (date-str (format-time-string (car fmt) time))
+               (time-str (format-time-string (cdr fmt) time)))
+          ;; year-month-day
+          (add-text-properties beg (if (eq tbeg tend) end tbeg)
+                               `(face ,date-face display ,date-str))
+          ;; hour:minute
+          (unless (eq tbeg tend)
+            (add-text-properties tbeg end
+                                 `(face ,time-face display ,time-str))))
+      (put-text-property beg (1+ beg) 'display " ")
+      (put-text-property (1- end) end 'display " ")
+      ;; year-month-day
+      (put-text-property beg (if (eq tbeg tend) end tbeg) 'face date-face)
+      ;; hour:minute
+      (unless (eq tbeg tend)
+        (put-text-property (1- tbeg) tbeg
+                           'display (format "%c " (char-before tbeg)))
+        (put-text-property tbeg end 'face time-face)))))
 
 (defun org-modern--star ()
   "Prettify headline stars."
@@ -517,7 +531,7 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
       (when org-modern-tag
         `((,(concat "^\\*+.*?\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")
            (0 (org-modern--tag)))))
-      (when (and org-modern-timestamp (not org-display-custom-times))
+      (when org-modern-timestamp
         '(("\\(?:<\\|\\[\\)\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\(?: [[:word:]]+\\)?\\(?: [.+-]+[0-9ymwdh/]+\\)*\\)\\(\\(?: [0-9:-]+\\)?\\(?: [.+-]+[0-9ymwdh/]+\\)*\\)\\(?:>\\|\\]\\)"
            (0 (org-modern--timestamp)))
           ("<[^>]+>\\(-\\)\\(-\\)<[^>]+>\\|\\[[^]]+\\]\\(?1:-\\)\\(?2:-\\)\\[[^]]+\\]"
