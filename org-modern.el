@@ -163,10 +163,20 @@ and faces in the cdr. Example:
 
 (defcustom org-modern-keyword t
   "Prettify keywords like #+title.
-If set to a string, e.g., \"‣\", the string is used as replacement for #+."
-  :type '(choice (boolean :tag "Hide keyword prefix")
-                 (string :tag "Custom replacement")
-                 (const :tag "Triangle bullet" "‣")))
+If set to a string, e.g., \"‣\", the string is used as replacement for #+.
+If set to an alist of keywords and strings, the associated string will be
+used as replacement for \"#+keyword:\", with t the default key."
+  :type '(choice (boolean :tag "Hide prefix")
+                 (string :tag "Replacement")
+                 (const :tag "Triangle bullet" "‣")
+                 (alist :key-type (choice (string :tag "Keyword")
+                                          (const :tag "Default" t))
+                        :value-type (choice (string :tag "Replacement")
+                                            (const :tag "Hide prefix" t)))))
+
+(defcustom org-modern-internal-link '(" ↪ " t " ")
+  "Prettify internal links, e.g., <<introduction>>."
+  :type '(choice (const nil) (list string boolean string)))
 
 (defcustom org-modern-statistics t
   "Prettify todo statistics."
@@ -206,6 +216,10 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
     (((background light)) :foreground "black")
     (t :foreground "white"))
   "Face used for tag labels.")
+
+(defface org-modern-internal-link
+  '((t :inherit org-modern-done))
+  "Face used for internal link.")
 
 (defface org-modern-done
   '((default :inherit org-modern-label)
@@ -274,6 +288,19 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
      (propertize (alist-get (char-after (1+ beg))
                             org-modern-checkbox)
                  'face 'org-modern-symbol))))
+
+(defun org-modern--keyword ()
+  "Prettify keywords according to `org-modern-keyword'."
+  (let ((beg (match-beginning 0))
+        (end (match-end 0))
+        (rep (assoc (match-string 2) org-modern-keyword)))
+    (unless rep
+      (setq rep (assq t org-modern-keyword) end (match-end 1)))
+    (pcase (cdr rep)
+      ('t (put-text-property beg (match-end 1) 'invisible t))
+      ((pred stringp)
+       (put-text-property beg end 'display
+                          (propertize (cdr rep) 'face 'org-modern-symbol))))))
 
 (defun org-modern--statistics ()
   "Prettify headline todo statistics."
@@ -503,11 +530,11 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
       (when org-modern-todo
         `((,(format "^\\*+ +%s " (regexp-opt org-todo-keywords-1 t)) (0 (org-modern--todo)))))
       (when org-modern-keyword
-        `(("^[ \t]*\\(#\\+\\)\\S-" 1
-           '(face nil
-                  ,@(if (stringp org-modern-keyword)
-                       `(display ,org-modern-keyword)
-                     '(invisible t))))))
+        `(("^[ \t]*\\(#\\+\\)\\([^: \t\n]+\\):"
+           ,@(pcase org-modern-keyword
+               ('t '(1 '(face nil invisible t)))
+               ((pred stringp) `(1 '(face nil display ,org-modern-keyword)))
+               (_ '(0 (org-modern--keyword)))))))
       (when org-modern-checkbox
         '(("^[ \t]*\\(?:[-+*]\\|[0-9]+[.)]\\)[ \t]+\\(\\[[ X-]\\]\\)[ \t]"
            (0 (org-modern--checkbox)))))
@@ -522,15 +549,22 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
         '(("^[ \t]*\\(|.*|\\)[ \t]*$" (0 (org-modern--table)))))
       (when org-modern-block
         '(("^[ \t]*#\\+\\(?:begin\\|BEGIN\\)_\\S-" (0 (org-modern--block-fringe)))
-          ("^\\([ \t]*#\\+\\(?:begin\\|BEGIN\\)_\\)\\(\\S-+\\).*"
+          ("^\\([ \t]*#\\+\\(?:begin\\|BEGIN\\)_\\)\\(\\S-+\\)"
            (1 '(face nil display (space :width (3))))
            (2 'org-modern-block-keyword append))
-          ("^\\([ \t]*#\\+\\(?:end\\|END\\)_\\)\\(\\S-+\\).*"
+          ("^\\([ \t]*#\\+\\(?:end\\|END\\)_\\)\\(\\S-+\\)"
            (1 '(face nil display (space :width (3))))
            (2 'org-modern-block-keyword append))))
       (when org-modern-tag
         `((,(concat "^\\*+.*?\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")
            (0 (org-modern--tag)))))
+      (when org-modern-internal-link
+        `(("\\(<<\\)\\(.+?\\)\\(>>\\)"
+           (0 '(face org-modern-internal-link) t)
+           (1 '(face nil display ,(car org-modern-internal-link)))
+           (3 '(face nil display ,(caddr org-modern-internal-link)))
+           ,@(unless (cadr org-modern-internal-link)
+              '((2 '(face nil invisible t)))))))
       (when org-modern-timestamp
         '(("\\(?:<\\|\\[\\)\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\(?: [[:word:]]+\\)?\\(?: [.+-]+[0-9ymwdh/]+\\)*\\)\\(\\(?: [0-9:-]+\\)?\\(?: [.+-]+[0-9ymwdh/]+\\)*\\)\\(?:>\\|\\]\\)"
            (0 (org-modern--timestamp)))
