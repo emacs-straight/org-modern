@@ -467,10 +467,6 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
                      (put-text-property i (1+ i) 'display
                                         (if (= 0 (mod i 2)) sp1 sp2)))))))))
 
-(define-fringe-bitmap 'org-modern--block-inner (make-vector 1 #x80) nil nil '(top t))
-(define-fringe-bitmap 'org-modern--block-begin (vconcat (make-vector 20 0) [#xFF] (make-vector 107 #x80)) nil nil 'top)
-(define-fringe-bitmap 'org-modern--block-end (vconcat (make-vector 107 #x80) [#xFF] (make-vector 20 0)) nil nil 'bottom)
-
 (defun org-modern--block-fringe ()
   "Prettify blocks with fringe bitmaps."
   ;; Do not add source block fringe markers if org-indent-mode is
@@ -517,6 +513,12 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   :group 'org-modern
   (cond
    (org-modern-mode
+    (unless (fringe-bitmap-p 'org-modern--block-inner)
+      (let* ((g (ceiling (frame-char-height) 1.8))
+             (h (- (default-line-height) g)))
+        (define-fringe-bitmap 'org-modern--block-inner [128] nil nil '(top t))
+        (define-fringe-bitmap 'org-modern--block-begin (vconcat (make-vector g 0) [#xFF] (make-vector (- 127 g) #x80)) nil nil 'top)
+        (define-fringe-bitmap 'org-modern--block-end (vconcat (make-vector (- 127 h) #x80) [#xFF] (make-vector h 0)) nil nil 'bottom)))
     (org-modern--update-label-face)
     (setq
      org-modern--keywords
