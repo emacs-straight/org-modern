@@ -168,6 +168,7 @@ and faces in the cdr. Example:
 
 (defcustom org-modern-keyword t
   "Prettify keywords like #+title.
+If set to t, the prefix #+ will be hidden.
 If set to a string, e.g., \"‣\", the string is used as replacement for #+.
 If set to an alist of keywords and strings, the associated string will be
 used as replacement for \"#+keyword:\", with t the default key."
@@ -311,7 +312,7 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   "Prettify keywords according to `org-modern-keyword'."
   (let ((beg (match-beginning 0))
         (end (match-end 0))
-        (rep (assoc (match-string 2) org-modern-keyword)))
+        (rep (assoc (downcase (match-string 2)) org-modern-keyword)))
     (unless rep
       (setq rep (assq t org-modern-keyword) end (match-end 1)))
     (pcase (cdr rep)
@@ -652,28 +653,28 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   "Finalize Org agenda highlighting."
   (save-excursion
     (save-match-data
-      ;; Todo keywords
-      (goto-char (point-min))
-      (let ((re (format ": +%s "
-                        (regexp-opt
-                         (append org-todo-keywords-for-agenda
-                                 org-done-keywords-for-agenda) t)))
-            (org-done-keywords org-done-keywords-for-agenda))
-        (while (re-search-forward re nil 'noerror)
-          (org-modern--todo)))
-      ;; Tags
-      (goto-char (point-min))
-      (let ((re (concat "\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")))
-        (while (re-search-forward re nil 'noerror)
-          (org-modern--tag)))
-      ;; Priorities
-      (goto-char (point-min))
-      (while (re-search-forward "\\(\\[\\)#.\\(\\]\\)" nil 'noerror)
-        ;; For some reason the org-agenda-fontify-priorities adds overlays?!
-        (when-let (ov (overlays-at (match-beginning 0))) (overlay-put (car ov) 'face nil))
-        (put-text-property (match-beginning 0) (match-end 0) 'face 'org-modern-priority)
-        (put-text-property (match-beginning 1) (match-end 1) 'display " ")
-        (put-text-property (match-beginning 2) (match-end 2) 'display " ")))))
+      (when org-modern-todo
+        (goto-char (point-min))
+        (let ((re (format ": +%s "
+                          (regexp-opt
+                           (append org-todo-keywords-for-agenda
+                                   org-done-keywords-for-agenda) t)))
+              (org-done-keywords org-done-keywords-for-agenda))
+          (while (re-search-forward re nil 'noerror)
+            (org-modern--todo))))
+      (when org-modern-tag
+        (goto-char (point-min))
+        (let ((re (concat "\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")))
+          (while (re-search-forward re nil 'noerror)
+            (org-modern--tag))))
+      (when org-modern-priority
+        (goto-char (point-min))
+        (while (re-search-forward "\\(\\[\\)#.\\(\\]\\)" nil 'noerror)
+          ;; For some reason the org-agenda-fontify-priorities adds overlays?!
+          (when-let (ov (overlays-at (match-beginning 0))) (overlay-put (car ov) 'face nil))
+          (put-text-property (match-beginning 0) (match-end 0) 'face 'org-modern-priority)
+          (put-text-property (match-beginning 1) (match-end 1) 'display " ")
+          (put-text-property (match-beginning 2) (match-end 2) 'display " "))))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-org-modern-mode
