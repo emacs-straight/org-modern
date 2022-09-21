@@ -291,7 +291,10 @@ the font.")
 (defvar-local org-modern--star-cache nil)
 (defvar-local org-modern--checkbox-cache nil)
 (defvar-local org-modern--progress-cache nil)
-(defvar-local org-modern--sp-width (list nil))
+(defvar-local org-modern--table-sp-width 0)
+(defconst org-modern--table-overline '(:overline t))
+(defconst org-modern--table-sp '((space :width (org-modern--table-sp-width))
+                                 (space :width (org-modern--table-sp-width))))
 
 (defun org-modern--checkbox ()
   "Prettify checkboxes according to `org-modern-checkbox'."
@@ -420,10 +423,6 @@ the font.")
            (end (match-end 0))
            (tbeg (match-beginning 1))
            (tend (match-end 1))
-           ;; Unique space objects
-           (sp1 (list 'space :width org-modern--sp-width))
-           (sp2 (list 'space :width org-modern--sp-width))
-           (color (face-attribute 'org-table :foreground nil t))
            (inner (progn
                     (goto-char beg)
                     (forward-line)
@@ -448,15 +447,14 @@ the font.")
       (goto-char beg)
       (when separator
         (when (numberp org-modern-table-horizontal)
-          (add-face-text-property tbeg tend `(:overline ,color) 'append)
+          (add-face-text-property tbeg tend org-modern--table-overline 'append)
           (add-face-text-property beg (1+ end) `(:height ,org-modern-table-horizontal) 'append))
         (while (re-search-forward "[^|+]+" tend 'noerror)
           (let ((a (match-beginning 0))
                 (b (match-end 0)))
-            ;; TODO Text scaling breaks the table formatting since the space is not scaled accordingly
             (cl-loop for i from a below b do
                      (put-text-property i (1+ i) 'display
-                                        (if (= 0 (mod i 2)) sp1 sp2)))))))))
+                                        (nth (mod i 2) org-modern--table-sp)))))))))
 
 (defun org-modern--block-name ()
   "Prettify block according to `org-modern-block-name'."
@@ -518,8 +516,14 @@ the font.")
           t)))))
 
 (defun org-modern--pre-redisplay (_)
-  "Compute font width before redisplay."
-  (setcar org-modern--sp-width (default-font-width)))
+  "Compute font parameters before redisplay."
+  (when-let (box (and org-modern-label-border
+                      (face-attribute 'org-modern-label :box nil t)))
+    (unless (equal (and (listp box) (plist-get box :color))
+                   (face-attribute 'default :background nil t))
+      (org-modern--update-label-face)))
+  (setf org-modern--table-sp-width (default-font-width)
+        (cadr org-modern--table-overline) (face-attribute 'org-table :foreground nil t)))
 
 (defun org-modern--update-label-face ()
   "Update border of the `org-modern-label' face."
@@ -675,7 +679,6 @@ the font.")
   (cond
    (org-modern-mode
     (setq
-     org-modern--sp-width (list nil)
      org-modern--star-cache
      (vconcat (mapcar
                (lambda (x) (propertize x 'face 'org-modern-symbol))
@@ -704,24 +707,25 @@ the font.")
     (remove-hook 'pre-redisplay-functions #'org-modern--pre-redisplay 'local)))
   (save-restriction
     (widen)
-    (org-modern--unfontify (point-min) (point-max))
+    (with-silent-modifications
+      (org-modern--unfontify (point-min) (point-max)))
     (font-lock-flush)))
 
 (defun org-modern--unfontify (beg end &optional _loud)
   "Unfontify prettified elements between BEG and END."
-  (org-unfontify-region beg end)
-  ;; TODO implement better unfontify
-  (with-silent-modifications
-    ;; Only remove line-prefix and wrap-prefix if org-indent-mode is disabled.
-    (remove-list-of-text-properties
-     beg end
-     (if (bound-and-true-p org-indent-mode)
-         '(display face invisible)
-       '(wrap-prefix line-prefix display face invisible)))))
+  (let ((font-lock-extra-managed-props
+         (append
+          ;; Only remove line-prefix and wrap-prefix if org-indent-mode is disabled.
+          (if (bound-and-true-p org-indent-mode)
+              '(display invisible)
+            '(wrap-prefix line-prefix display invisible))
+          font-lock-extra-managed-props)))
+    (org-unfontify-region beg end)))
 
 ;;;###autoload
 (defun org-modern-agenda ()
   "Finalize Org agenda highlighting."
+  (add-hook 'pre-redisplay-functions #'org-modern--pre-redisplay nil 'local)
   (save-excursion
     (save-match-data
       (when org-modern-todo
