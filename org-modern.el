@@ -5,7 +5,7 @@
 ;; Author: Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2022
-;; Version: 0.5
+;; Version: 0.6
 ;; Package-Requires: ((emacs "27.1"))
 ;; Homepage: https://github.com/minad/org-modern
 
@@ -748,7 +748,7 @@ the font.")
     (save-match-data
       (when org-modern-todo
         (goto-char (point-min))
-        (let ((re (format ": +%s "
+        (let ((re (format " %s "
                           (regexp-opt
                            (append org-todo-keywords-for-agenda
                                    org-done-keywords-for-agenda) t)))
