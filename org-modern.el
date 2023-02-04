@@ -27,7 +27,7 @@
 ;;; Commentary:
 
 ;; This package adds some styling to your Org buffer, which gives it a
-;; modern look. Enable the styling by default with:
+;; modern look.  Enable the styling by default with:
 ;;   (add-hook 'org-mode-hook 'org-modern-mode)
 
 ;;; Code:
@@ -39,6 +39,9 @@
 
 (defgroup org-modern nil
   "Modern looks for Org."
+  :link '(info-link :tag "Info Manual" "(org-modern)")
+  :link '(url-link :tag "Homepage" "https://github.com/minad/org-modern")
+  :link '(emacs-library-link :tag "Library Source" "org-modern.el")
   :group 'org
   :prefix "org-modern-")
 
@@ -65,10 +68,11 @@ Set to nil to disable."
 
 (defcustom org-modern-timestamp t
   "Prettify time stamps, e.g. <2022-03-01>.
-Set to nil to disable styling the time stamps. In order to use custom
-timestamps, the format should be (DATE . TIME) where DATE is the format
-for date, and TIME is the format for time. DATE and TIME must be
-surrounded with space. For the syntax, refer to `format-time-string'."
+Set to nil to disable styling the time stamps.  In order to use
+custom timestamps, the format should be (DATE . TIME) where DATE
+is the format for date, and TIME is the format for time.  DATE
+and TIME must be surrounded with space.  For the syntax, refer to
+`format-time-string'."
   :type '(choice
           (const :tag "Disable time stamp styling" nil)
           (const :tag "Enable timestamp styling" t)
@@ -89,8 +93,19 @@ Set to nil to hide the vertical lines."
   :type '(choice (const nil) number))
 
 (defcustom org-modern-priority t
-  "Prettify priorities."
-  :type 'boolean)
+  "Prettify priorities.
+If set to t, the priority will be prettified with the brackets
+hidden.  If set to an alist of characters and strings, the
+associated string will be used as replacement for the given
+priority.  Example:
+
+  (setq org-modern-priority
+    (quote ((?A . \"❗\")
+            (?B . \"⬆\")
+            (?C . \"⬇\"))))"
+  :type '(choice (boolean :tag "Prettify")
+                 (alist :key-type (character :tag "Priority")
+                        :value-type (string :tag "Replacement"))))
 
 (defcustom org-modern-list
   '((?+ . "◦")
@@ -121,14 +136,30 @@ replacement expression, e.g., a string."
 (defcustom org-modern-todo-faces nil
   "Faces for todo keywords.
 This is an alist, with todo keywords in the car
-and faces in the cdr. Example:
+and faces in the cdr.  Example:
 
   (setq org-modern-todo-faces
     (quote ((\"TODO\" :background \"red\"
                     :foreground \"yellow\"))))"
   :type '(repeat
-          (cons (string :tag "Keyword")
-                (sexp   :tag "Face   "))))
+          (cons (choice
+                  (string :tag "Keyword")
+                  (const :tag "Default" t))
+                (sexp :tag "Face   "))))
+
+(defcustom org-modern-priority-faces nil
+  "Faces for priority tags.
+This is an alist, with priority character in the car and faces in
+the cdr.  Example:
+
+  (setq org-modern-priority-faces
+    (quote ((?A :background \"red\"
+                :foreground \"yellow\"))))"
+  :type '(repeat
+          (cons (choice
+                 (character :tag "Priority")
+                 (const :tag "Default" t))
+                (sexp :tag "Face   "))))
 
 (defcustom org-modern-tag t
   "Prettify tags in headlines, e.g., :tag1:tag2:."
@@ -166,10 +197,15 @@ the window."
 
 (defcustom org-modern-keyword t
   "Prettify keywords like #+title.
-If set to t, the prefix #+ will be hidden.
-If set to a string, e.g., \"‣\", the string is used as replacement for #+.
-If set to an alist of keywords and strings, the associated string will be
-used as replacement for \"#+keyword:\", with t the default key."
+If set to t, the prefix #+ will be hidden.  If set to a string,
+e.g., \"‣\", the string is used as replacement for #+.  If set to
+an alist of keywords and strings, the associated string will be
+used as replacement for \"#+keyword:\", with t the default key.
+Example:
+
+  (setq org-modern-keyword
+    (quote ((\"options\" . \"🔧\")
+            (t . t))))"
   :type '(choice (boolean :tag "Hide prefix")
                  (string :tag "Replacement")
                  (const :tag "Triangle bullet" "‣")
@@ -209,7 +245,7 @@ Set to nil to disable the indicator."
 
 (defface org-modern-symbol nil
   "Face used for stars, checkboxes and progress indicators.
-You can specify a font `:family'. The font families `Iosevka', `Hack' and
+You can specify a font `:family'.  The font families `Iosevka', `Hack' and
 `DejaVu Sans' give decent results.")
 
 (defface org-modern-label
@@ -217,7 +253,7 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
   "Parent face for labels.
 The parameters of this face depend on typographical properties of
 the font and should therefore be adjusted by the user depending
-on their font, e.g., the :width or :height parameters. Themes
+on their font, e.g., the :width or :height parameters.  Themes
 should not override this face, since themes usually don't control
 the font.")
 
@@ -249,13 +285,13 @@ the font.")
   ;; `:inverse-video' to use todo foreground as label background
   '((t :inherit (org-todo org-modern-label)
        :weight semibold :inverse-video t))
-  "Face used for todo labels.")
+  "Default face used for todo labels.")
 
 (defface org-modern-priority
   ;; `:inverse-video' to use priority foreground as label background
   '((t :inherit (org-priority org-modern-label)
        :weight semibold :inverse-video t))
-  "Face used for priority labels.")
+  "Default face used for priority labels.")
 
 (defface org-modern-statistics
   '((t :inherit org-modern-done))
@@ -309,7 +345,7 @@ the font.")
         (end (match-end 1)))
     (put-text-property
      beg end 'display
-     (alist-get (char-after (1+ beg)) org-modern--checkbox-cache))))
+     (cdr (assq (char-after (1+ beg)) org-modern--checkbox-cache)))))
 
 (defun org-modern--keyword ()
   "Prettify keywords according to `org-modern-keyword'."
@@ -323,6 +359,23 @@ the font.")
       ('t (put-text-property beg (match-end 1) 'invisible 'org-modern))
       ((pred stringp)
        (put-text-property beg end 'display rep)))))
+
+(defun org-modern--priority ()
+  "Prettify priorities according to `org-modern-priority'."
+  (let* ((beg (match-beginning 1))
+         (end (match-end 1))
+         (prio (char-before (1- end))))
+    (if-let ((rep (and (consp org-modern-priority)
+                       (cdr (assq prio org-modern-priority)))))
+        (put-text-property beg end 'display rep)
+      (put-text-property beg (1+ beg) 'display " ")
+      (put-text-property (1- end) end 'display " ")
+      (put-text-property
+       beg end 'face
+       (if-let ((face (or (cdr (assq prio org-modern-priority-faces))
+                          (cdr (assq t org-modern-priority-faces)))))
+           `(:inherit (,face org-modern-label))
+         'org-modern-priority)))))
 
 (defun org-modern--progress ()
   "Prettify headline todo progress."
@@ -369,7 +422,8 @@ the font.")
     (put-text-property (1- end) end 'display (string (char-before end) ?\s))
     (put-text-property
      beg end 'face
-     (if-let (face (cdr (assoc todo org-modern-todo-faces)))
+     (if-let ((face (or (cdr (assoc todo org-modern-todo-faces))
+                        (cdr (assq t org-modern-todo-faces)))))
          `(:inherit (,face org-modern-label))
        (if (member todo org-done-keywords)
            'org-modern-done
@@ -532,8 +586,8 @@ the font.")
 
 (defun org-modern--pre-redisplay (_)
   "Compute font parameters before redisplay."
-  (when-let (box (and org-modern-label-border
-                      (face-attribute 'org-modern-label :box nil t)))
+  (when-let ((box (and org-modern-label-border
+                       (face-attribute 'org-modern-label :box nil t))))
     (unless (equal (and (listp box) (plist-get box :color))
                    (face-attribute 'default :background nil t))
       (org-modern--update-label-face)))
@@ -557,7 +611,7 @@ the font.")
        (list :color (face-attribute 'default :background nil t)
              :line-width
              ;; Emacs 28 supports different line horizontal and vertical line widths
-             (if (>= emacs-major-version 28)
+             (if (eval-when-compile (>= emacs-major-version 28))
                  (cons 0 (- border))
                (- border)))))))
 
@@ -587,17 +641,15 @@ the font.")
 (defun org-modern--make-font-lock-keywords ()
   "Compute font-lock keywords."
   (append
-   (when-let (bullet (alist-get ?+ org-modern-list))
+   (when-let ((bullet (alist-get ?+ org-modern-list)))
      `(("^[ \t]*\\(+\\)[ \t]" 1 '(face nil display ,bullet))))
-   (when-let (bullet (alist-get ?- org-modern-list))
+   (when-let ((bullet (alist-get ?- org-modern-list)))
      `(("^[ \t]*\\(-\\)[ \t]" 1 '(face nil display ,bullet))))
-   (when-let (bullet (alist-get ?* org-modern-list))
+   (when-let ((bullet (alist-get ?* org-modern-list)))
      `(("^[ \t]+\\(*\\)[ \t]" 1 '(face nil display ,bullet))))
    (when org-modern-priority
-     '(("^\\*+.*? \\(\\(\\[\\)#.\\(\\]\\)\\) "
-        (1 'org-modern-priority t)
-        (2 '(face nil display " "))
-        (3 '(face nil display " ")))))
+     `(("^\\*+.*? \\(\\(\\[\\)#.\\(\\]\\)\\) "
+        (1 (org-modern--priority)))))
    (when org-modern-todo
      `((,(format "^\\*+ +%s " (regexp-opt org-todo-keywords-1 t))
         (0 (org-modern--todo)))))
@@ -624,12 +676,12 @@ the font.")
         (0 (org-modern--tag)))))
    (when org-modern-footnote
      `(("^\\(\\[fn:\\)[[:word:]-_]+\\]" ;; Definition
-        ,@(if-let (x (car org-modern-footnote))
+        ,@(if-let ((x (car org-modern-footnote)))
               `((0 '(face nil display ,x))
                 (1 '(face nil display ,(propertize "[" 'display x))))
             '((1 '(face nil display "[")))))
        ("[^\n]\\(\\(\\[fn:\\)[[:word:]-_]+\\]\\)" ;; Reference
-        ,@(if-let (x (cdr org-modern-footnote))
+        ,@(if-let ((x (cdr org-modern-footnote)))
               `((1 '(face nil display ,x))
                 (2 '(face nil display ,(propertize "[" 'display x))))
             '((2 '(face nil display "[")))))))
@@ -771,12 +823,11 @@ the font.")
             (org-modern--tag))))
       (when org-modern-priority
         (goto-char (point-min))
-        (while (re-search-forward "\\(\\[\\)#.\\(\\]\\)" nil 'noerror)
+        (while (re-search-forward "\\(\\[#.\\]\\)" nil 'noerror)
           ;; For some reason the org-agenda-fontify-priorities adds overlays?!
-          (when-let (ov (overlays-at (match-beginning 0))) (overlay-put (car ov) 'face nil))
-          (put-text-property (match-beginning 0) (match-end 0) 'face 'org-modern-priority)
-          (put-text-property (match-beginning 1) (match-end 1) 'display " ")
-          (put-text-property (match-beginning 2) (match-end 2) 'display " "))))))
+          (when-let ((ov (overlays-at (match-beginning 0))))
+            (overlay-put (car ov) 'face nil))
+          (org-modern--priority))))))
 
 ;;;###autoload
 (define-globalized-minor-mode global-org-modern-mode

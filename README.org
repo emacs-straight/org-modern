@@ -1,6 +1,10 @@
 #+title: Modern Org Style
 #+author: Daniel Mendler
 #+language: en
+#+export_file_name: org-modern.texi
+#+texinfo_dir_category: Emacs misc features
+#+texinfo_dir_title: Org-Modern: (org-modern).
+#+texinfo_dir_desc: Modern Org Style
 
 #+html: <a href="https://www.gnu.org/software/emacs/"><img alt="GNU Emacs" src="https://github.com/minad/corfu/blob/screenshots/emacs.svg?raw=true"/></a>
 #+html: <a href="https://elpa.gnu.org/packages/org-modern.html"><img alt="GNU ELPA" src="https://elpa.gnu.org/packages/org-modern.svg"/></a>
@@ -29,7 +33,7 @@ if =line-spacing= has a value between 0.1 and 0.4 in the Org buffer. Note that
 =org-modern-mode=, e.g., the block brackets in the fringe.
 
 Bug reports, improvement or style proposals are welcome! Maybe some more Org
-elements deserve styling or alternative stylings should be offered?
+elements deserve styling or alternative styles should be offered?
 
 The tag style of =org-modern= is inspired by Nicholas Rougier's beautiful
 [[https://github.com/rougier/svg-tag-mode][svg-tag-mode]]. In contrast to =svg-tag-mode=, this package avoids images and uses
@@ -48,6 +52,8 @@ Another popular alternative is [[https://github.com/integral-dw/org-superstar-mo
 feature set and mainly adjusts headlines and lists. =org-superstar= relies on
 character composition, while =org-modern= uses text properties, which are
 considered more future-proof.
+
+* Configuration
 
 The package is available on GNU ELPA and MELPA. You can install the package with
 =package-install=. Then =org-modern= can be enabled manually in an Org buffer by
