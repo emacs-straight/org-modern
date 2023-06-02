@@ -674,9 +674,6 @@ the font.")
                   org-modern-horizontal-rule)))))
    (when org-modern-table
      '(("^[ \t]*\\(|.*|\\)[ \t]*$" (0 (org-modern--table)))))
-   (when org-modern-tag
-     `((,(concat "^\\*+.*?\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")
-        (0 (org-modern--tag)))))
    (when org-modern-footnote
      `(("^\\(\\[fn:\\)[[:word:]-_]+\\]" ;; Definition
         ,@(if-let ((x (car org-modern-footnote)))
@@ -715,7 +712,17 @@ the font.")
         (1 '(face org-modern-statistics) t)
         (2 ,(if org-modern-progress '(org-modern--progress) ''(face nil display " ")))
         (6 '(face nil display " ")))))
-   '((org-fontify-meta-lines-and-blocks)) ;; Ensure that blocks are properly fontified
+   (when org-modern-tag
+     `((,(concat "^\\*+.*?\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")
+        (0 (org-modern--tag)))))
+   ;; Ensure that blocks are properly fontified, source blocks etc.  This
+   ;; fontification rule must come late such that org-modern does not interfere
+   ;; with source fontification.
+   '((org-fontify-meta-lines-and-blocks))
+   (when org-modern-tag
+     `((,(concat "^[ \t]*#\\+\\(?:filetags\\|FILETAGS\\):\\( +\\)\\(:\\(?:"
+                 org-tag-re ":\\)+\\)[ \t]*$")
+        (0 (org-modern--tag)))))
    (when org-modern-keyword
      `(("^[ \t]*\\(#\\+\\)\\([^: \t\n]+\\):"
         ,@(pcase org-modern-keyword
