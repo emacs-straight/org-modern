@@ -56,7 +56,7 @@ A value between 0.1 and 0.4 of `line-spacing' is recommended."
 (defcustom org-modern-star 'fold
   "Style heading stars.
 Can be nil, fold or replace.  See `org-modern-fold-stars' and
-`org-moder-replace-stars' for the respective configurations."
+`org-modern-replace-stars' for the respective configurations."
   :type '(choice (const :tag "No styling" nil)
                  (const :tag "Folding indicators" fold)
                  (const :tag "Replace" replace)))
@@ -153,12 +153,24 @@ replacement expression, e.g., a string."
 
 (defcustom org-modern-todo-faces nil
   "Faces for todo keywords.
-This is an alist, with todo keywords in the car
-and faces in the cdr.  Example:
+This is an alist, with todo keywords in the car and faces in the
+cdr.  Example:
 
   (setq org-modern-todo-faces
-    (quote ((\"TODO\" :background \"red\"
-                    :foreground \"yellow\"))))"
+    (quote ((\"TODO\" :background \"red\" :foreground \"yellow\"))))"
+  :type '(repeat
+          (cons (choice
+                  (string :tag "Keyword")
+                  (const :tag "Default" t))
+                (sexp :tag "Face   "))))
+
+(defcustom org-modern-tag-faces nil
+  "Faces for tags keywords.
+This is an alist, with tag the car and faces in the cdr.
+Example:
+
+  (setq org-modern-tag-faces
+    (quote ((\"emacs\" :background \"red\" :foreground \"yellow\"))))"
   :type '(repeat
           (cons (choice
                   (string :tag "Keyword")
@@ -427,7 +439,13 @@ the font.")
                                (format #(" %c" 1 3 (cursor t)) (char-after colon-end)))
             (put-text-property (1- cbeg) cbeg 'display
                                (string (char-before cbeg) ?\s))
-            (put-text-property colon-end cbeg 'face 'org-modern-tag))
+            (put-text-property
+             colon-end cbeg 'face
+             (if-let ((faces org-modern-tag-faces)
+                      (face (or (cdr (assoc (buffer-substring-no-properties colon-end cbeg) faces))
+                                (cdr (assq t faces)))))
+                 `(:inherit (,face org-modern-tag))
+               'org-modern-tag)))
           (add-text-properties cbeg cend colon-props)
           (setq colon-beg cbeg colon-end cend))))))
 
