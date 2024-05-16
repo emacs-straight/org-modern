@@ -258,14 +258,11 @@ references."
   "Prettify radio link targets, e.g., <<<radio>>>."
   :type '(choice (const nil) (list string boolean string)))
 
-(defcustom org-modern-statistics t
-  "Prettify todo statistics."
-  :type 'boolean)
-
-(defcustom org-modern-progress "○◔◑◕●"
-  "Add a progress indicator to the todo statistics.
-Set to nil to disable the indicator."
-  :type '(choice string (repeat string)))
+(defcustom org-modern-progress 12
+  "Width in characters to draw progress bars.
+Set to nil to disable bars."
+  :type '(choice (const :tag "Disable progress bar" nil)
+                 (natnum :tag "Bar width")))
 
 (defgroup org-modern-faces nil
   "Faces used by `org-modern'."
@@ -291,6 +288,17 @@ the font.")
   '((t :height 0.8 :weight light))
   "Face used for block keywords.")
 
+(defface org-modern-progress-complete
+  '((((background light))
+     :background "gray35" :foreground "white")
+    (t :background "gray75" :foreground "black"))
+  "Face used for completed section of progress bars (colors only).")
+
+(defface org-modern-progress-incomplete
+  '((((background light)) :background "gray90" :foreground "black")
+    (t :background "gray20" :foreground "white"))
+  "Face used for incomplete section of progress bars (colors only).")
+
 (defface org-modern-tag
   '((default :inherit (secondary-selection org-modern-label))
     (((background light)) :foreground "black")
@@ -309,7 +317,7 @@ the font.")
   '((default :inherit org-modern-label)
     (((background light)) :background "gray90" :foreground "black")
     (t :background "gray20" :foreground "white"))
-  "Face used for done labels.")
+  "Default face used for done labels.")
 
 (defface org-modern-todo
   ;; `:inverse-video' to use todo foreground as label background
@@ -323,12 +331,10 @@ the font.")
        :weight semibold :inverse-video t))
   "Default face used for priority labels.")
 
-(defface org-modern-statistics
-  '((t :inherit org-modern-done))
-  "Face used for todo statistics labels.")
-
 (defface org-modern-date-active
-  '((t :inherit org-modern-done))
+  '((default :inherit org-modern-label)
+    (((background light)) :background "gray90" :foreground "black")
+    (t :background "gray20" :foreground "white"))
   "Face used for active date labels.")
 
 (defface org-modern-time-active
@@ -364,7 +370,6 @@ the font.")
 (defvar-local org-modern--expanded-star-cache nil)
 (defvar-local org-modern--hide-stars-cache nil)
 (defvar-local org-modern--checkbox-cache nil)
-(defvar-local org-modern--progress-cache nil)
 (defvar-local org-modern--table-sp-width 0)
 (defconst org-modern--table-overline '(:overline t))
 (defconst org-modern--table-sp '((space :width (org-modern--table-sp-width))
@@ -383,7 +388,8 @@ the font.")
   (let ((beg (match-beginning 0))
         (end (match-end 0))
         (rep (and (listp org-modern-keyword)
-                  (cdr (assoc (downcase (match-string 2)) org-modern-keyword)))))
+                  (cdr (assoc (downcase (match-string-no-properties 2))
+                              org-modern-keyword)))))
     (unless rep
       (setq rep (cdr (assq t org-modern-keyword)) end (match-end 1)))
     (pcase rep
@@ -409,18 +415,31 @@ the font.")
          'org-modern-priority)))))
 
 (defun org-modern--progress ()
-  "Prettify headline todo progress."
-  (put-text-property
-   (match-beginning 2) (match-end 2) 'display
-   (aref org-modern--progress-cache
-         (floor
-          (* (1- (length org-modern--progress-cache))
-             (if (match-beginning 3)
-                 (* 0.01 (string-to-number (match-string 3)))
-               (let ((q (string-to-number (match-string 5))))
-                 (if (= q 0)
-                     1.0
-                   (/ (* 1.0 (string-to-number (match-string 4))) q)))))))))
+  "Prettify progress as color-coded bar."
+  (let* ((beg (match-beginning 1))
+         (end (match-end 1))
+         (val (min 1.0
+                   (if (match-beginning 2)
+                       (* 0.01 (string-to-number (match-string-no-properties 2)))
+                     (let ((q (string-to-number (match-string-no-properties 4))))
+                       (if (= q 0)
+                           1.0
+                         (/ (* 1.0 (string-to-number (match-string-no-properties 3))) q))))))
+         (w org-modern-progress)
+         (complete (floor (* w val)))
+         (w0 (- end beg 2))
+         (w1 (/ (- w w0) 2))
+         (bar (concat (make-string w1 ?\s)
+                      (buffer-substring-no-properties (1+ beg) (1- end))
+                      (make-string (- w w1 w0) ?\s))))
+    (put-text-property 0 complete 'face 'org-modern-progress-complete bar)
+    (put-text-property complete w 'face 'org-modern-progress-incomplete bar)
+    (put-text-property beg end 'face 'org-modern-label)
+    (put-text-property beg (1+ beg) 'display (substring bar 0 w1))
+    (put-text-property (1- end) end 'display (substring bar (+ w1 w0) w))
+    (dotimes (i w0)
+      (put-text-property (+ 1 beg i) (+ 2 beg i)
+                         'display (substring bar (+ w1 i) (+ w1 i 1))))))
 
 (defun org-modern--tag ()
   "Prettify headline tags."
@@ -451,7 +470,7 @@ the font.")
 
 (defun org-modern--todo ()
   "Prettify headline todo keywords."
-  (let ((todo (match-string 1))
+  (let ((todo (match-string-no-properties 1))
         (beg (match-beginning 1))
         (end (match-end 1)))
     (put-text-property beg (1+ beg) 'display
@@ -584,7 +603,7 @@ whole buffer; otherwise, for the line at point."
          (beg-name (match-beginning 3))
          (end-name (match-end 3))
          (names (and (listp org-modern-block-name) org-modern-block-name))
-         (rep (cdr (assoc (downcase (match-string 3)) names)))
+         (rep (cdr (assoc (downcase (match-string-no-properties 3)) names)))
          (fringe (and org-modern-block-fringe (not (bound-and-true-p org-indent-mode)))))
     (unless rep
       (setq rep (cdr (assq t names)) end-rep beg-name))
@@ -652,7 +671,7 @@ whole buffer; otherwise, for the line at point."
    :box
    (when org-modern-label-border
      (let ((border (if (eq org-modern-label-border 'auto)
-                       (max 3 (cond
+                       (max 2 (cond
                                ((integerp line-spacing)
                                 line-spacing)
                                ((floatp line-spacing)
@@ -753,11 +772,9 @@ whole buffer; otherwise, for the line at point."
        ("<[^>]+>\\(-\\)\\(-\\)<[^>]+>\\|\\[[^]]+\\]\\(?1:-\\)\\(?2:-\\)\\[[^]]+\\]"
         (1 '(face org-modern-label display #("  " 1 2 (face (:strike-through t) cursor t))) t)
         (2 '(face org-modern-label display #("  " 0 1 (face (:strike-through t)))) t))))
-   (when org-modern-statistics
-     `((" \\(\\(\\[\\)\\(?:\\([0-9]+\\)%\\|\\([0-9]+\\)/\\([0-9]+\\)\\)\\(\\]\\)\\)"
-        (1 '(face org-modern-statistics) t)
-        (2 ,(if org-modern-progress '(org-modern--progress) ''(face nil display " ")))
-        (6 '(face nil display " ")))))
+   (when (integerp org-modern-progress)
+     `((" \\(\\[\\(?:\\([0-9]+\\)%\\|\\([0-9]+\\)/\\([0-9]+\\)\\)]\\)"
+        (0 (org-modern--progress)))))
    (when org-modern-tag
      `((,(concat "^\\*+.*?\\( \\)\\(:\\(?:" org-tag-re ":\\)+\\)[ \t]*$")
         (0 (org-modern--tag)))))
@@ -824,10 +841,6 @@ whole buffer; otherwise, for the line at point."
      (and (char-or-string-p org-modern-hide-stars)
           (list (org-modern--symbol org-modern-hide-stars)
                 (org-modern--symbol org-modern-hide-stars)))
-     org-modern--progress-cache
-     (vconcat (mapcar
-               (lambda (x) (concat " " (org-modern--symbol x) " "))
-               org-modern-progress))
      org-modern--checkbox-cache
      (mapcar (pcase-lambda (`(,k . ,v)) (cons k (org-modern--symbol v)))
              org-modern-checkbox)
