@@ -2,10 +2,11 @@
 #+author: Daniel Mendler
 #+language: en
 
-* Development
+* Version 1.3 (2024-06-02)
 
 - Add support for heading folding indicators. The option ~org-modern-star~ has
-  been changed to accept the values ~fold~, ~replace~ and ~nil~.
+  been changed to accept the values ~fold~, ~replace~ and ~nil~. Set ~org-modern-star~
+  to ~replace~ to go back to the old default behavior.
 - Add new customization options ~org-modern-replace-stars~ and
   ~org-modern-fold-stars~.
 - Add ~org-modern-tag-faces~.
