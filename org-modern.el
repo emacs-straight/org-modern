@@ -6,7 +6,7 @@
 ;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2022
 ;; Version: 1.3
-;; Package-Requires: ((emacs "27.1") (compat "29.1.4.4"))
+;; Package-Requires: ((emacs "27.1") (compat "30"))
 ;; Homepage: https://github.com/minad/org-modern
 ;; Keywords: outlines, hypermedia, text
 
@@ -681,7 +681,7 @@ whole buffer; otherwise, for the line at point."
        (list :color (face-attribute 'default :background nil t)
              :line-width
              ;; Emacs 28 supports different line horizontal and vertical line widths
-             (if (eval-when-compile (>= emacs-major-version 28))
+             (static-if (>= emacs-major-version 28)
                  (cons -1 (- border))
                (- border)))))))
 
