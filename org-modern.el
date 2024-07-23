@@ -481,9 +481,8 @@ the font.")
      (if-let ((face (or (cdr (assoc todo org-modern-todo-faces))
                         (cdr (assq t org-modern-todo-faces)))))
          `(:inherit (,face org-modern-label))
-       (if (member todo org-done-keywords)
-           'org-modern-done
-         'org-modern-todo)))))
+       (if (string-match-p org-not-done-regexp todo)
+           'org-modern-todo 'org-modern-done)))))
 
 (defun org-modern--timestamp ()
   "Prettify timestamps."
@@ -662,9 +661,9 @@ whole buffer; otherwise, for the line at point."
                    (face-attribute 'default :background nil t))
       (org-modern--update-label-face)))
   (let ((face-remapping-alist
-         (if-let (h (cadr (assq :height (assq 'default face-remapping-alist))))
-             `((default (:inherit org-table :height ,h)))
-           '((default (:inherit org-table))))))
+         (if-let ((d (ensure-list (cdr (assq 'default face-remapping-alist)))))
+             `((default org-table ,@d default))
+           '((default org-table default)))))
     (setq org-modern--table-sp-width (default-font-width)))
   (setf (cadr org-modern--table-overline) (face-attribute 'org-table :foreground nil t)))
 
@@ -902,13 +901,14 @@ whole buffer; otherwise, for the line at point."
       (let (case-fold-search)
         (when org-modern-todo
           (goto-char (point-min))
-          (let ((re (format " %s "
-                            (regexp-opt
-                             (append org-todo-keywords-for-agenda
-                                     org-done-keywords-for-agenda) t)))
-                (org-done-keywords org-done-keywords-for-agenda))
-            (while (re-search-forward re nil 'noerror)
-              (org-modern--todo))))
+          (while (< (point) (point-max))
+            (when-let (((get-text-property (point) 'todo-state))
+                       (org-not-done-regexp (get-text-property (point) 'org-not-done-regexp))
+                       (re (get-text-property (point) 'org-todo-regexp))
+                       (re (concat " " re " "))
+                       ((re-search-forward re (pos-eol) 'noerror)))
+              (org-modern--todo))
+            (goto-char (min (1+ (pos-eol)) (point-max)))))
         (when org-modern-tag
           (goto-char (point-min))
           (let ((re (concat "\\( \\)\\(:\\(?:" org-tag-re "::?\\)+\\)[ \t]*$")))
