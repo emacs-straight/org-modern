@@ -661,9 +661,10 @@ whole buffer; otherwise, for the line at point."
                    (face-attribute 'default :background nil t))
       (org-modern--update-label-face)))
   (let ((face-remapping-alist
-         (if-let ((d (ensure-list (cdr (assq 'default face-remapping-alist)))))
-             `((default org-table ,@d default))
-           '((default org-table default)))))
+         `((default org-table
+            ,@(or (ensure-list (cdr (assq 'default face-remapping-alist)))
+                  '(default)))
+           ,@face-remapping-alist)))
     (setq org-modern--table-sp-width (default-font-width)))
   (setf (cadr org-modern--table-overline) (face-attribute 'org-table :foreground nil t)))
 
@@ -902,8 +903,7 @@ whole buffer; otherwise, for the line at point."
         (when org-modern-todo
           (goto-char (point-min))
           (while (< (point) (point-max))
-            (when-let (((get-text-property (point) 'todo-state))
-                       (org-not-done-regexp (get-text-property (point) 'org-not-done-regexp))
+            (when-let ((org-not-done-regexp (get-text-property (point) 'org-not-done-regexp))
                        (re (get-text-property (point) 'org-todo-regexp))
                        (re (concat " " re " "))
                        ((re-search-forward re (pos-eol) 'noerror)))
