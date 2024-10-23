@@ -1,4 +1,4 @@
-This is docoG6ZK6.info, produced by makeinfo version 6.8 from
+This is docXP8jln.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docoG6ZK6.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: docXP8jln.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -16,11 +16,12 @@ Modern Org Style
 
 * Introduction::
 * Configuration::
+* Incompatibilities::
 * Alternatives::
 * Contributions::
 
 
-File: docoG6ZK6.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: docXP8jln.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -48,7 +49,7 @@ value of ‘line-spacing’.  This looks best if ‘line-spacing’ has a value
 between 0.1 and 0.4 in the Org buffer.
 
 
-File: docoG6ZK6.info,  Node: Configuration,  Next: Alternatives,  Prev: Introduction,  Up: Top
+File: docXP8jln.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -121,39 +122,53 @@ looks of the screenshot above.
      (global-org-modern-mode)
 
 
-File: docoG6ZK6.info,  Node: Alternatives,  Next: Contributions,  Prev: Configuration,  Up: Top
+File: docXP8jln.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
-3 Alternatives
+3 Incompatibilities
+*******************
+
+   • ‘org-indent-mode’ is not compatible with the block prettification
+     in the fringe.  If ‘org-indent-mode’ is enabled, ‘org-modern’ will
+     disable the block prettification.
+   • ‘org-num-mode’ interferes with the ‘org-modern’ prettification of
+     TODO keywords.
+   • ‘visual-wrap-prefix-mode’ relies on the ‘wrap-prefix’ text property
+     which is also used by ‘org-modern’.
+
+
+File: docXP8jln.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+
+4 Alternatives
 **************
 
 The tag style of ‘org-modern’ is inspired by Nicholas Rougier’s
-beautiful svg-tag-mode (https://github.com/rougier/svg-tag-mode).  In
-contrast to ‘svg-tag-mode’, this package avoids images and uses cheap
-and fast Emacs box text properties.  By only styling the text via text
+svg-tag-mode (https://github.com/rougier/svg-tag-mode).  In contrast to
+‘svg-tag-mode’, the package ‘org-modern’ avoids images and uses more
+efficient Emacs box text properties.  By only styling the text via text
 properties, the styled text, e.g., dates or tags stay editable and are
 easy to interact with.
 
-   The approach restricts our flexibility and may lead to font-dependent
-issues.  We do our best, but for example there is no way we can get
-round corners.  Combining ‘org-modern-mode’ with ‘svg-tag-mode’ is
-possible.  You can use SVG tags and use the table and block styling from
-‘org-modern’.  If you are interested in further tweaks, Emacs comes with
-the builtin ‘prettify-symbols-mode’ which can be used for individual
-styling of custom keywords.
+   The approach used here restricts the flexibility (e.g., no rounded
+corners) and creates dependence on the size and alignment of the font.
+Combining ‘org-modern-mode’ with ‘svg-tag-mode’ is possible.  You can
+use SVG tags and use the table and block styling from ‘org-modern’.  If
+you are interested in further tweaks, Emacs comes with the builtin
+‘prettify-symbols-mode’ which can be used for individual styling of
+custom keywords.
 
-   Popular alternatives are the older ‘org-superstar’ and ‘org-bullets’
-packages, which have are more limited and mainly adjust headlines and
-lists.  ‘org-superstar’ relies on character composition, while
-‘org-modern’ uses text properties, which are considered more
-future-proof.  Note that ‘org-modern’ is a full replacement for both
-‘org-superstar’ and ‘org-bullets’.  You can easily disable styling of
-certain elements, e.g., ‘org-modern-timestamp’, if you only want to use
-a subset of ‘org-modern’.
+   Alternatives are the older ‘org-superstar’ and ‘org-bullets’
+packages, which are more limited and mainly adjust headlines and lists.
+‘org-superstar’ relies on character composition, while ‘org-modern’ uses
+text properties, which are considered more future-proof.  Note that
+‘org-modern’ is a full replacement for both ‘org-superstar’ and
+‘org-bullets’.  You can disable styling of certain elements, e.g.,
+‘org-modern-timestamp’, if you only want to use the subset of
+‘org-modern’ equivalent to ‘org-superstar’.
 
 
-File: docoG6ZK6.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: docXP8jln.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
-4 Contributions
+5 Contributions
 ***************
 
 Since this package is part of GNU ELPA
@@ -164,10 +179,11 @@ copyright assignment to the FSF.
 
 Tag Table:
 Node: Top204
-Node: Introduction388
-Node: Configuration1654
-Node: Alternatives4251
-Node: Contributions5769
+Node: Introduction410
+Node: Configuration1676
+Node: Incompatibilities4278
+Node: Alternatives4848
+Node: Contributions6375
 
 End Tag Table
 
