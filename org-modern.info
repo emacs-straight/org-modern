@@ -1,4 +1,4 @@
-This is docXP8jln.info, produced by makeinfo version 6.8 from
+This is doc7FRbi0.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docXP8jln.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: doc7FRbi0.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -21,7 +21,7 @@ Modern Org Style
 * Contributions::
 
 
-File: docXP8jln.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: doc7FRbi0.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -49,7 +49,7 @@ value of ‘line-spacing’.  This looks best if ‘line-spacing’ has a value
 between 0.1 and 0.4 in the Org buffer.
 
 
-File: docXP8jln.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
+File: doc7FRbi0.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -122,7 +122,7 @@ looks of the screenshot above.
      (global-org-modern-mode)
 
 
-File: docXP8jln.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
+File: doc7FRbi0.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
 3 Incompatibilities
 *******************
@@ -136,7 +136,7 @@ File: docXP8jln.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Conf
      which is also used by ‘org-modern’.
 
 
-File: docXP8jln.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: doc7FRbi0.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
@@ -166,7 +166,7 @@ text properties, which are considered more future-proof.  Note that
 ‘org-modern’ equivalent to ‘org-superstar’.
 
 
-File: docXP8jln.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: doc7FRbi0.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 5 Contributions
 ***************
