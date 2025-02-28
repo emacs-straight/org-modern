@@ -1,4 +1,4 @@
-This is docYAD3nH.info, produced by makeinfo version 6.8 from
+This is docebbltd.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docYAD3nH.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: docebbltd.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -21,7 +21,7 @@ Modern Org Style
 * Contributions::
 
 
-File: docYAD3nH.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: docebbltd.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -52,7 +52,7 @@ are not recommended, since Emacs does not center the text vertically
 (https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
 
 
-File: docYAD3nH.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
+File: docebbltd.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -116,7 +116,7 @@ looks of the screenshot above after the installation of ‘org-modern’.
      (global-org-modern-mode)
 
 
-File: docYAD3nH.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
+File: docebbltd.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
 3 Incompatibilities
 *******************
@@ -130,7 +130,7 @@ File: docYAD3nH.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Conf
      which is also used by ‘org-modern’.
 
 
-File: docYAD3nH.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: docebbltd.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
@@ -160,7 +160,7 @@ text properties, which are considered more future-proof.  Note that
 ‘org-modern’ equivalent to ‘org-superstar’.
 
 
-File: docYAD3nH.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: docebbltd.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 5 Contributions
 ***************
