@@ -1,4 +1,4 @@
-This is docebbltd.info, produced by makeinfo version 6.8 from
+This is doc9QMxEr.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docebbltd.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: doc9QMxEr.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -21,7 +21,7 @@ Modern Org Style
 * Contributions::
 
 
-File: docebbltd.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: doc9QMxEr.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -52,7 +52,7 @@ are not recommended, since Emacs does not center the text vertically
 (https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
 
 
-File: docebbltd.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
+File: doc9QMxEr.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -107,16 +107,13 @@ looks of the screenshot above after the installation of ‘org-modern’.
       ;; Org styling, hide markup etc.
       org-hide-emphasis-markers t
       org-pretty-entities t
-      org-agenda-tags-column 0)
-
-     ;; Ellipsis styling
-     (setq org-ellipsis "…")
-     (set-face-attribute 'org-ellipsis nil :inherit 'default :box nil)
+      org-agenda-tags-column 0
+      org-ellipsis "…")
 
      (global-org-modern-mode)
 
 
-File: docebbltd.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
+File: doc9QMxEr.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
 3 Incompatibilities
 *******************
@@ -130,7 +127,7 @@ File: docebbltd.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Conf
      which is also used by ‘org-modern’.
 
 
-File: docebbltd.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: doc9QMxEr.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
@@ -160,7 +157,7 @@ text properties, which are considered more future-proof.  Note that
 ‘org-modern’ equivalent to ‘org-superstar’.
 
 
-File: docebbltd.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: doc9QMxEr.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 5 Contributions
 ***************
@@ -175,9 +172,9 @@ Tag Table:
 Node: Top204
 Node: Introduction410
 Node: Configuration1851
-Node: Incompatibilities4042
-Node: Alternatives4612
-Node: Contributions6139
+Node: Incompatibilities3939
+Node: Alternatives4509
+Node: Contributions6036
 
 End Tag Table
 
