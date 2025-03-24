@@ -1,2 +1,2 @@
-;; Generated package description from org-modern.el  -*- mode: lisp-data; no-byte-compile: t -*-
-(define-package "org-modern" "1.7.0.20250311.170125" "Modern looks for Org" '((emacs "28.1") (compat "30")) :commit "e7a4c5e4a1d309895c60b3a3b3e62ab1f6a926b4" :authors '(("Daniel Mendler" . "mail@daniel-mendler.de")) :maintainer '("Daniel Mendler" . "mail@daniel-mendler.de") :keywords '("outlines" "hypermedia" "text") :url "https://github.com/minad/org-modern")
+;; Generated package description from mode: lisp-data; .el  -*- org-modernno-byte-compile: t -*-
+(define-package "org-modern" "1.7.0.20250323.173657" "Modern looks for Org" '((emacs "28.1") (org "9.5") (compat "30")) :commit "0cf27c5ef6185181bc796cb0497d7784837295b2" :authors '(("Daniel Mendler" . "mail@daniel-mendler.de")) :maintainer '("Daniel Mendler" . "mail@daniel-mendler.de") :keywords '("outlines" "hypermedia" "text") :url "https://github.com/minad/org-modern")
