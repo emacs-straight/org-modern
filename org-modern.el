@@ -3,7 +3,7 @@
 ;; Copyright (C) 2022-2025 Free Software Foundation, Inc.
 
 ;; Author: Daniel Mendler <mail@daniel-mendler.de>
-;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
+;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>, J.D. Smith <jdtsmith+elpa@gmail.com>
 ;; Created: 2022
 ;; Version: 1.7
 ;; Package-Requires: ((emacs "28.1") (org "9.5") (compat "30"))
@@ -29,7 +29,7 @@
 
 ;; This package adds some styling to your Org buffer, which gives it a
 ;; modern look.  Enable the styling by default with:
-;;   (add-hook 'org-mode-hook 'org-modern-mode)
+;;   (global-org-modern-mode)
 
 ;;; Code:
 
@@ -225,6 +225,11 @@ which specifies the offset of the block border from the edge of
 the window."
   :type '(choice boolean natnum))
 
+(defcustom org-modern-block-indent nil
+  "Whether to style indented blocks when using `org-indent-mode'.
+See `org-modern-indent-mode'."
+  :type 'boolean)
+
 (defcustom org-modern-keyword t
   "Prettify keywords like #+title.
 If set to t, the prefix #+ will be hidden.  If set to a string,
@@ -377,6 +382,8 @@ the font.")
 (defconst org-modern--table-overline '(:overline t))
 (defconst org-modern--table-sp '((space :width (org-modern--table-sp-width))
                                  (space :width (org-modern--table-sp-width))))
+(defvar org-indent-mode)
+(declare-function org-modern-indent-mode "ext:org-modern-indent")
 
 (defun org-modern--checkbox ()
   "Prettify checkboxes according to `org-modern-checkbox'."
@@ -796,7 +803,7 @@ whole buffer; otherwise, for the line at point."
         (2 '(face org-modern-label display #("  " 0 1 (face (:strike-through t)))) t))))
    ;; Do not add source block fringe markers if org-indent-mode is
    ;; enabled. org-indent-mode uses line prefixes for indentation.
-   ;; Therefore we cannot have both.
+   ;; org-modern-indent handles this.
    (when (and org-modern-block-fringe (not (bound-and-true-p org-indent-mode)))
      '(("^[ \t]*#\\+\\(?:begin\\|BEGIN\\)_\\S-"
         (0 (org-modern--block-fringe)))))
@@ -862,7 +869,9 @@ whole buffer; otherwise, for the line at point."
     (when (eq org-modern-star 'fold)
       (add-hook 'org-cycle-hook #'org-modern--cycle nil 'local))
     (org-modern--update-faces)
-    (org-modern--update-bitmaps))
+    (org-modern--update-bitmaps)
+    (when (and org-indent-mode org-modern-block-indent)
+      (org-modern-indent-mode 1)))
    (t
     (remove-from-invisibility-spec 'org-modern)
     (font-lock-remove-keywords nil org-modern--font-lock-keywords)
@@ -872,7 +881,9 @@ whole buffer; otherwise, for the line at point."
     (remove-hook 'org-after-promote-entry-hook #'org-modern--unfontify-line 'local)
     (remove-hook 'org-after-demote-entry-hook #'org-modern--unfontify-line 'local)
     (when (eq org-modern-star 'fold)
-      (remove-hook 'org-cycle-hook #'org-modern--cycle 'local))))
+      (remove-hook 'org-cycle-hook #'org-modern--cycle 'local))
+    (when (bound-and-true-p org-modern-indent-mode)
+      (org-modern-indent-mode 0))))
   (without-restriction
     (with-silent-modifications
       (org-modern--unfontify (point-min) (point-max)))
