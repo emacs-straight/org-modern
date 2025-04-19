@@ -145,9 +145,9 @@
   `org-modern-block-indent=t' to enable. To activate `org-indent-mode'
   in all org files, set `org-startup-indented=t'.
 
-  *Note*: Currently `org-modern-indent' still requires zero
-  `line-spacing', as it leads to gaps in the vertical bars drawn to
-  indicate blocks, but hopefully this can be improved in the future.
+  *Note*: Currently `org-modern-indent' requires zero `line-spacing', as
+  it leads to gaps in the vertical bars drawn to indicate blocks, but
+  hopefully this can be improved in the future.
 
 
 3.1 Bulk-indented blocks (e.g. within plain lists):
@@ -166,7 +166,7 @@
   alignment, here are a few ways to alter blocks indentation using org
   and other commands:
 
-  • **Start things right**: Hit return after your last line of text (e.g
+  • *Start things right*: Hit return after your last line of text (e.g
     in a list item), then immediately hit `C-c C,' to create the desired
     block. It will be indented at the right level:
 
@@ -234,6 +234,8 @@
     TODO keywords.
   • `visual-wrap-prefix-mode' relies on the `wrap-prefix' text property
     which is also used by `org-modern'.
+  • `org-modern-indent-mode' is incompatible with non-zero
+    `line-spacing'.
 
 
 5 Alternatives

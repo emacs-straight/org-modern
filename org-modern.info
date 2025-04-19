@@ -1,4 +1,4 @@
-This is doc5INblr.info, produced by makeinfo version 6.8 from
+This is docMur2WM.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: doc5INblr.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: docMur2WM.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -34,7 +34,7 @@ Font spacing and faces
 
 
 
-File: doc5INblr.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: docMur2WM.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -65,7 +65,7 @@ are not recommended, since Emacs does not center the text vertically
 (https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
 
 
-File: doc5INblr.info,  Node: Configuration,  Next: Block indentation,  Prev: Introduction,  Up: Top
+File: docMur2WM.info,  Node: Configuration,  Next: Block indentation,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -153,7 +153,7 @@ display entities:
        (org-agenda-finalize . org-modern-agenda))
 
 
-File: doc5INblr.info,  Node: Block indentation,  Next: Incompatibilities,  Prev: Configuration,  Up: Top
+File: docMur2WM.info,  Node: Block indentation,  Next: Incompatibilities,  Prev: Configuration,  Up: Top
 
 3 Block indentation
 *******************
@@ -166,9 +166,9 @@ including support for "bulk-indented" blocks nested within plain lists:
 Configure ‘org-modern-block-indent=t’ to enable.  To activate
 ‘org-indent-mode’ in all org files, set ‘org-startup-indented=t’.
 
-   *Note*: Currently ‘org-modern-indent’ still requires zero
-‘line-spacing’, as it leads to gaps in the vertical bars drawn to
-indicate blocks, but hopefully this can be improved in the future.
+   *Note*: Currently ‘org-modern-indent’ requires zero ‘line-spacing’,
+as it leads to gaps in the vertical bars drawn to indicate blocks, but
+hopefully this can be improved in the future.
 
 * Menu:
 
@@ -176,7 +176,7 @@ indicate blocks, but hopefully this can be improved in the future.
 * Font spacing and faces::
 
 
-File: doc5INblr.info,  Node: Bulk-indented blocks (eg within plain lists),  Next: Font spacing and faces,  Up: Block indentation
+File: docMur2WM.info,  Node: Bulk-indented blocks (eg within plain lists),  Next: Font spacing and faces,  Up: Block indentation
 
 3.1 Bulk-indented blocks (e.g. within plain lists):
 ===================================================
@@ -194,8 +194,8 @@ just styles what is there.  To help achieve proper block bulk-indented
 alignment, here are a few ways to alter blocks indentation using org and
 other commands:
 
-   • **Start things right**: Hit return after your last line of text
-     (e.g in a list item), then immediately hit ‘C-c C,’ to create the
+   • *Start things right*: Hit return after your last line of text (e.g
+     in a list item), then immediately hit ‘C-c C,’ to create the
      desired block.  It will be indented at the right level:
 
           - This list item contains a:
@@ -231,7 +231,7 @@ other commands:
           to be significant there.
 
 
-File: doc5INblr.info,  Node: Font spacing and faces,  Prev: Bulk-indented blocks (eg within plain lists),  Up: Block indentation
+File: docMur2WM.info,  Node: Font spacing and faces,  Prev: Bulk-indented blocks (eg within plain lists),  Up: Block indentation
 
 3.2 Font spacing and faces
 ==========================
@@ -248,7 +248,7 @@ add:
 * The bracket style::
 
 
-File: doc5INblr.info,  Node: The bracket style,  Up: Font spacing and faces
+File: docMur2WM.info,  Node: The bracket style,  Up: Font spacing and faces
 
 3.2.1 The bracket style
 -----------------------
@@ -257,7 +257,7 @@ If you’d like a different face than ‘org-meta-line’ for the "bracket",
 configure the ‘org-modern-indent-bracket-line’ face.
 
 
-File: doc5INblr.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Block indentation,  Up: Top
+File: docMur2WM.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Block indentation,  Up: Top
 
 4 Incompatibilities
 *******************
@@ -266,9 +266,11 @@ File: doc5INblr.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Bloc
      TODO keywords.
    • ‘visual-wrap-prefix-mode’ relies on the ‘wrap-prefix’ text property
      which is also used by ‘org-modern’.
+   • ‘org-modern-indent-mode’ is incompatible with non-zero
+     ‘line-spacing’.
 
 
-File: doc5INblr.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: docMur2WM.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 5 Alternatives
 **************
@@ -299,7 +301,7 @@ styling of certain elements, e.g., ‘org-modern-timestamp’, if you only
 want to use the subset of ‘org-modern’ equivalent to ‘org-superstar’.
 
 
-File: doc5INblr.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: docMur2WM.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 6 Contributions
 ***************
@@ -315,12 +317,12 @@ Node: Top204
 Node: Introduction658
 Node: Configuration2099
 Node: Block indentation5041
-Node: Bulk-indented blocks (eg within plain lists)5962
-Node: Font spacing and faces8425
-Node: The bracket style8972
-Node: Incompatibilities9235
-Node: Alternatives9613
-Node: Contributions11220
+Node: Bulk-indented blocks (eg within plain lists)5956
+Node: Font spacing and faces8417
+Node: The bracket style8964
+Node: Incompatibilities9227
+Node: Alternatives9696
+Node: Contributions11303
 
 End Tag Table
 
