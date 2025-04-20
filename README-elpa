@@ -141,6 +141,8 @@
   enabled, including support for "bulk-indented" blocks nested within
   plain lists:
 
+  <https://github.com/minad/org-modern/blob/screenshots/indent.png?raw=true>
+
   `org-modern-indent' is disabled by `org-modern' by default. Configure
   `org-modern-block-indent=t' to enable. To activate `org-indent-mode'
   in all org files, set `org-startup-indented=t'.

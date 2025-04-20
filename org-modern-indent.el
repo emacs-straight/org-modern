@@ -5,7 +5,6 @@
 ;; Author: J.D. Smith <jdtsmith+elpa@gmail.com>
 ;; Maintainer: J.D. Smith <jdtsmith+elpa@gmail.com>
 ;; Created: 2022
-;; Keywords: convenience, text
 
 ;; This file is part of GNU Emacs.
 
@@ -25,8 +24,9 @@
 ;;; Commentary:
 
 ;; `org-modern-indent' is an `org-modern' extension which approximates
-;; the block highlighting style of `org-modern'.  By default, it is
-;; activated when `org-indent' is is active in the buffer.  It was
+;; the block highlighting style of `org-modern'.  If
+;; `org-modern-block-indent' is non-nil, it is activated when
+;; `org-indent' is is active in the buffer.  `org-modern-indent' was
 ;; merged into `org-modern' as of v2.0.
 
 ;;; Code:
@@ -47,9 +47,9 @@
   "Face for bracket line in org-modern-indent."
   :group 'faces)
 
-(defconst omi/begin (propertize "╭" 'face 'omi/bracket-line))
-(defconst omi/guide (propertize "│" 'face 'omi/bracket-line))
-(defconst omi/end   (propertize "╰" 'face 'omi/bracket-line))
+(defconst omi/begin "╭")
+(defconst omi/guide "│")
+(defconst omi/end   "╰")
 
 (defvar omi/begin-re
   "\\([ \t]*\\)\\(#\\+\\)\\(?:begin\\|BEGIN\\)_\\S-")
@@ -80,19 +80,19 @@ the contents."
     (let* ((key (+ org-indent (* 1000 extra-indent)))
            (cached (gethash key omi/-prefixes)))
       (or cached
-          (puthash key
-                   (cl-loop for type in '("begin" "guide" "end")
-                            for tstr = (symbol-value
-                                        (intern (concat "org-modern-indent-" type)))
-                            with olen = (if (> extra-indent 0) org-indent
-                                          (1- org-indent))
-                            with ostr = (and (> olen 0)
-                                             (propertize (make-string olen ?\s)
-                                                         'face '(org-indent default)))
-                            with pstr = (and (> extra-indent 0)
-                                             (make-string (1- extra-indent) ?\s))
-                            collect (concat ostr pstr tstr))
-                   omi/-prefixes)))))
+	  (puthash key
+		   (cl-loop for guide in (list omi/begin omi/guide omi/end)
+			    for bg-face in '(org-block-begin-line org-block org-block-end-line)
+			    for tstr = (propertize guide 'face `(omi/bracket-line ,bg-face))
+			    with olen = (if (> extra-indent 0) org-indent
+					  (1- org-indent))
+			    with ostr = (and (> olen 0)
+					     (propertize (make-string olen ?\s)
+							 'face '(org-indent default)))
+			    with pstr = (and (> extra-indent 0)
+					     (make-string (1- extra-indent) ?\s))
+			    collect (concat ostr pstr tstr))
+		   omi/-prefixes)))))
 
 ;;;; Finding and operating on blocks
 (defsubst omi/-block-p (el)
@@ -370,5 +370,6 @@ To be added to `org-indent-post-buffer-init-functions'."
 ;;; org-modern-indent.el ends here
 ;; Local Variables:
 ;; read-symbol-shorthands: (("omi/" . "org-modern-indent-") (":omi/" . ":org-modern-indent-"))
+;; indent-tabs-mode: nil
 ;; package-lint--sane-prefixes: "^omi/"
 ;; End:
