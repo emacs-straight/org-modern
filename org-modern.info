@@ -1,4 +1,4 @@
-This is docXh7Yyx.info, produced by makeinfo version 6.8 from
+This is doct12sGh.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docXh7Yyx.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: doct12sGh.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -16,25 +16,12 @@ Modern Org Style
 
 * Introduction::
 * Configuration::
-* Block indentation::
 * Incompatibilities::
 * Alternatives::
 * Contributions::
 
-— The Detailed Node Listing —
-
-Block indentation
-
-* Bulk-indented blocks (e.g. within plain lists): Bulk-indented blocks (eg within plain lists).
-* Font spacing and faces::
-
-Font spacing and faces
-
-* The bracket style::
-
-
 
-File: docXh7Yyx.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: doct12sGh.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -65,7 +52,7 @@ are not recommended, since Emacs does not center the text vertically
 (https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
 
 
-File: docXh7Yyx.info,  Node: Configuration,  Next: Block indentation,  Prev: Introduction,  Up: Top
+File: doct12sGh.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -125,156 +112,26 @@ looks of the screenshot above after the installation of ‘org-modern’.
 
      (global-org-modern-mode)
 
-   An alternative setup, using ‘use-package’ and modifying some of the
-display entities:
-
-     (use-package org-modern
-       :custom
-       (org-modern-block-indent t)  ; to enable org-modern-indent when org-indent is active
-       (org-modern-hide-stars nil)
-       (org-modern-todo-faces
-        '(("STARTED" :foreground "yellow")
-          ("CANCELED" org-special-keyword :inverse-video t :weight bold)))
-       (org-modern-list
-        '((?* . "•")
-          (?+ . "‣")))
-       (org-modern-fold-stars
-        '(("▶" . "▼")
-          ("▷" . "▽")
-          ("▸" . "▾")
-          ("▹" . "▿")))
-       (org-modern-checkbox
-        '((?X . "✔")
-          (?- . "┅")
-          (?\s . " ")))
-       (org-modern-label-border 1)
-       :hook
-       (org-mode . org-modern-mode)
-       (org-agenda-finalize . org-modern-agenda))
-
 
-File: docXh7Yyx.info,  Node: Block indentation,  Next: Incompatibilities,  Prev: Configuration,  Up: Top
+File: doct12sGh.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
-3 Block indentation
+3 Incompatibilities
 *******************
 
-Since version 2.0, this package also incorporates ‘org-modern-indent’,
-which provides block bracket styling when ‘org-indent-mode’ is enabled,
-including support for "bulk-indented" blocks nested within plain lists:
-
-   <https://github.com/minad/org-modern/blob/screenshots/indent.png?raw=true>
-
-   ‘org-modern-indent’ is disabled by ‘org-modern’ by default.
-Configure ‘org-modern-block-indent=t’ to enable.  To activate
-‘org-indent-mode’ in all org files, set ‘org-startup-indented=t’.
-
-   *Note*: Currently ‘org-modern-indent’ requires zero ‘line-spacing’,
-as it leads to gaps in the vertical bars drawn to indicate blocks, but
-hopefully this can be improved in the future.
-
-* Menu:
-
-* Bulk-indented blocks (e.g. within plain lists): Bulk-indented blocks (eg within plain lists).
-* Font spacing and faces::
-
-
-File: docXh7Yyx.info,  Node: Bulk-indented blocks (eg within plain lists),  Next: Font spacing and faces,  Up: Block indentation
-
-3.1 Bulk-indented blocks (e.g. within plain lists):
-===================================================
-
-Bulk-indented blocks have "real" (space/tab) indentation applied and
-managed by org.  This extra indentation is applied by org on top of the
-(fake, prefix-based) indentation used by org-indent.  To nest blocks
-properly within such indented content, e.g.  in plain list items, you
-only have to begin the ‘#+begin’ at the same level as the list element’s
-text.
-
-   As an important principle, ‘org-modern-indent’ does not alter the
-contents of the text in your org documents, not even indentation.  It
-just styles what is there.  To help achieve proper block bulk-indented
-alignment, here are a few ways to alter blocks indentation using org and
-other commands:
-
-   • *Start things right*: Hit return after your last line of text (e.g
-     in a list item), then immediately hit ‘C-c C,’ to create the
-     desired block.  It will be indented at the right level:
-
-          - This list item contains a:
-            - sublist, which holds a block:
-              [C-c C-,] here
-
-   • *Move flush left*: Note: ‘M-{’ will get you to the start of a block
-     quickly.  ‘M-\’ at block start will move the block’s first header
-     line to column 0.  Then ‘M-S-left’ (or ‘right’) will indent the
-     full block.
-   • *Indent rigidly*: ‘M-h’ selects the entire block.  Then ‘C-x TAB’
-     enters "rigid indent" mode, after which left/right moves the entire
-     block.
-   • *Re-indent a block*: If you have a block that is partially aligned,
-     perhaps with a "hanging end", like so:
-
-
-          - List 1
-              - List 2
-                #+begin_src lang
-                   foo_lang(x)
-                #+end_src
-
-     you can simply use ‘M-S-left/right’ at block start (or in fact
-     anywhere on the block header/footer) to ‘org-indent-block’.  Note
-     that ‘org-src-preserve-indentation=nil’ is an important setting, to
-     allow org to (re-)indent blocks to respect the local indentation
-     inside list and other elements.  Also note that (from
-     ‘org-indent-region’):
-
-          The function will not indent contents of example blocks, verse
-          blocks and export blocks as leading white spaces are assumed
-          to be significant there.
-
-
-File: docXh7Yyx.info,  Node: Font spacing and faces,  Prev: Bulk-indented blocks (eg within plain lists),  Up: Block indentation
-
-3.2 Font spacing and faces
-==========================
-
-The default ‘fixed-pitch’ font (from which ‘org-meta-line’ inherits) has
-line spacing >1.0 on some systems.  This will introduce gaps even if
-your default font is changed, and ‘line-space’ is nil.  To correct it,
-add:
-
-     (set-face-attribute 'fixed-pitch nil :family "Hack" :height 1.0) ; or whatever font family
-
-* Menu:
-
-* The bracket style::
-
-
-File: docXh7Yyx.info,  Node: The bracket style,  Up: Font spacing and faces
-
-3.2.1 The bracket style
------------------------
-
-If you’d like a different face than ‘org-meta-line’ for the "bracket",
-configure the ‘org-modern-indent-bracket-line’ face.
-
-
-File: docXh7Yyx.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Block indentation,  Up: Top
-
-4 Incompatibilities
-*******************
-
+   • If ‘org-indent-mode’ is enabled, ‘org-modern’ will disable the
+     block prettification in the fringe.  See the package
+     org-modern-indent (https://github.com/jdtsmith/org-modern-indent)
+     which provides a different mechanism for block styling, than using
+     the fringe.
    • ‘org-num-mode’ interferes with the ‘org-modern’ prettification of
      TODO keywords.
    • ‘visual-wrap-prefix-mode’ relies on the ‘wrap-prefix’ text property
      which is also used by ‘org-modern’.
-   • ‘org-modern-indent-mode’ is incompatible with non-zero
-     ‘line-spacing’.
 
 
-File: docXh7Yyx.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: doct12sGh.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
-5 Alternatives
+4 Alternatives
 **************
 
 The tag style of ‘org-modern’ is inspired by Nicholas Rougier’s
@@ -302,10 +159,15 @@ replacement for both ‘org-superstar’ and ‘org-bullets’.  You can disable
 styling of certain elements, e.g., ‘org-modern-timestamp’, if you only
 want to use the subset of ‘org-modern’ equivalent to ‘org-superstar’.
 
-
-File: docXh7Yyx.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+   For an alternative source block styling technique, please take a look
+at the org-modern-indent (https://github.com/jdtsmith/org-modern-indent)
+package.  Org-modern-indent can even style source blocks when
+‘org-indent-mode’ is enabled.
 
-6 Contributions
+
+File: doct12sGh.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+
+5 Contributions
 ***************
 
 Since this package is part of GNU ELPA
@@ -316,15 +178,11 @@ copyright assignment to the FSF.
 
 Tag Table:
 Node: Top204
-Node: Introduction658
-Node: Configuration2099
-Node: Block indentation5041
-Node: Bulk-indented blocks (eg within plain lists)6035
-Node: Font spacing and faces8496
-Node: The bracket style9043
-Node: Incompatibilities9306
-Node: Alternatives9775
-Node: Contributions11382
+Node: Introduction410
+Node: Configuration1851
+Node: Incompatibilities3939
+Node: Alternatives4609
+Node: Contributions6459
 
 End Tag Table
 
