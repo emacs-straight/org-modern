@@ -1,4 +1,4 @@
-This is doct12sGh.info, produced by makeinfo version 6.8 from
+This is docPx1xbo.info, produced by makeinfo version 6.8 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: doct12sGh.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: docPx1xbo.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -21,7 +21,7 @@ Modern Org Style
 * Contributions::
 
 
-File: doct12sGh.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: docPx1xbo.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -52,7 +52,7 @@ are not recommended, since Emacs does not center the text vertically
 (https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
 
 
-File: doct12sGh.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
+File: docPx1xbo.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -113,7 +113,7 @@ looks of the screenshot above after the installation of ‘org-modern’.
      (global-org-modern-mode)
 
 
-File: doct12sGh.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
+File: docPx1xbo.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
 3 Incompatibilities
 *******************
@@ -129,7 +129,7 @@ File: doct12sGh.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Conf
      which is also used by ‘org-modern’.
 
 
-File: doct12sGh.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: docPx1xbo.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
@@ -165,7 +165,7 @@ package.  Org-modern-indent can even style source blocks when
 ‘org-indent-mode’ is enabled.
 
 
-File: doct12sGh.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: docPx1xbo.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 5 Contributions
 ***************
