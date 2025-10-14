@@ -2,6 +2,11 @@
 #+author: Daniel Mendler
 #+language: en
 
+* Version 1.10 (2025-10-13)
+
+- Require Emacs 29.1.
+- Shorter horizontal line prettification to avoid line truncation indicators.
+
 * Version 1.9 (2025-06-12)
 
 - Fix table fontification out-of-range bug. Thanks, Steven Allen!
