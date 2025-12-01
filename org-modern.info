@@ -1,4 +1,4 @@
-This is doc9Ogq2T.info, produced by makeinfo version 6.8 from
+This is docyq3UhD.info, produced by makeinfo version 7.1.1 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: doc9Ogq2T.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: docyq3UhD.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -21,7 +21,7 @@ Modern Org Style
 * Contributions::
 
 
-File: doc9Ogq2T.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: docyq3UhD.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -52,7 +52,7 @@ are not recommended, since Emacs does not center the text vertically
 (https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
 
 
-File: doc9Ogq2T.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
+File: docyq3UhD.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -113,7 +113,7 @@ looks of the screenshot above after the installation of ‘org-modern’.
      (global-org-modern-mode)
 
 
-File: doc9Ogq2T.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
+File: docyq3UhD.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
 3 Incompatibilities
 *******************
@@ -129,12 +129,12 @@ File: doc9Ogq2T.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Conf
      which is also used by ‘org-modern’.
 
 
-File: doc9Ogq2T.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: docyq3UhD.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
 
-The tag style of ‘org-modern’ is inspired by Nicholas Rougier’s
+The tag style of ‘org-modern’ is inspired by Nicholas Rougier's
 svg-tag-mode (https://github.com/rougier/svg-tag-mode).  In contrast to
 ‘svg-tag-mode’, the package ‘org-modern’ avoids images and uses more
 efficient Emacs box text properties.  By only styling the text via text
@@ -165,7 +165,7 @@ package.  Org-modern-indent can even style source blocks when
 ‘org-indent-mode’ is enabled.
 
 
-File: doc9Ogq2T.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: docyq3UhD.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 5 Contributions
 ***************
@@ -177,11 +177,11 @@ copyright assignment to the FSF.
 
 
 Tag Table:
-Node: Top204
-Node: Introduction410
-Node: Configuration1851
-Node: Incompatibilities3939
-Node: Alternatives4609
+Node: Top206
+Node: Introduction412
+Node: Configuration1853
+Node: Incompatibilities3941
+Node: Alternatives4611
 Node: Contributions6459
 
 End Tag Table
