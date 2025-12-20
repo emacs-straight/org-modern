@@ -2,6 +2,10 @@
 #+author: Daniel Mendler
 #+language: en
 
+* Version 1.11 (2025-12-19)
+
+- Bugfixes
+
 * Version 1.10 (2025-10-13)
 
 - Require Emacs 29.1.
