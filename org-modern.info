@@ -1,4 +1,4 @@
-This is docm6R8Y1.info, produced by makeinfo version 7.1.1 from
+This is docjcONCw.info, produced by makeinfo version 7.1.1 from
 org-modern.texi.
 
 INFO-DIR-SECTION Emacs misc features
@@ -7,7 +7,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docm6R8Y1.info,  Node: Top,  Next: Introduction,  Up: (dir)
+File: docjcONCw.info,  Node: Top,  Next: Introduction,  Up: (dir)
 
 Modern Org Style
 ****************
@@ -21,7 +21,7 @@ Modern Org Style
 * Contributions::
 
 
-File: docm6R8Y1.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
+File: docjcONCw.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
 
 1 Introduction
 **************
@@ -44,15 +44,11 @@ settings.  You should ensure that your ‘variable-pitch’ and
 ‘fixed-pitch’ fonts combine harmonically and have approximately the same
 height.  As default font, I recommend variants of the Iosevka
 (https://github.com/be5invis/Iosevka) font, e.g., Iosevka Term Curly.
-‘org-modern-mode’ tries to adjust the tag label display based on the
-value of ‘line-spacing’.  This looks best if ‘line-spacing’ has a value
-between 0.1 and 0.4 in the Org buffer.  Larger values of ‘line-spacing’
-are not recommended, since Emacs does not center the text vertically
-(see Emacs bug#76390
-(https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
+‘org-modern-mode’ tries to adjust the tag label display based on font
+height.
 
 
-File: docm6R8Y1.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
+File: docjcONCw.info,  Node: Configuration,  Next: Incompatibilities,  Prev: Introduction,  Up: Top
 
 2 Configuration
 ***************
@@ -112,8 +108,14 @@ looks of the screenshot above after the installation of ‘org-modern’.
 
      (global-org-modern-mode)
 
+   Furthermore I recommend to use ‘line-spacing’ with a value between
+0.1 and 0.4 to give the text some room to breathe.  Unfortunately as of
+Emacs 30, the text is not centered with ‘line-spacing’, but I am hopeful
+that centering will be available in Emacs 31 (see Emacs bug#76390
+(https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76390)).
+
 
-File: docm6R8Y1.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
+File: docjcONCw.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Configuration,  Up: Top
 
 3 Incompatibilities
 *******************
@@ -129,7 +131,7 @@ File: docm6R8Y1.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Conf
      which is also used by ‘org-modern’.
 
 
-File: docm6R8Y1.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: docjcONCw.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
@@ -165,7 +167,7 @@ package.  Org-modern-indent can even style source blocks when
 ‘org-indent-mode’ is enabled.
 
 
-File: docm6R8Y1.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
+File: docjcONCw.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
 
 5 Contributions
 ***************
@@ -179,10 +181,10 @@ copyright assignment to the FSF.
 Tag Table:
 Node: Top206
 Node: Introduction412
-Node: Configuration1853
-Node: Incompatibilities3941
-Node: Alternatives4611
-Node: Contributions6459
+Node: Configuration1560
+Node: Incompatibilities3994
+Node: Alternatives4664
+Node: Contributions6512
 
 End Tag Table
 
