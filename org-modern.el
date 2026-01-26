@@ -365,9 +365,8 @@ the font.")
   "Face used for inactive time labels.")
 
 (defface org-modern-horizontal-rule
-  '((default :inherit org-hide)
-    (((background light)) :strike-through "gray70")
-    (t :strike-through "gray30"))
+  '((((background light)) :underline "gray70" :extend t)
+    (t :underline "gray30" :extend t))
   "Face used for horizontal ruler.")
 
 (defvar-local org-modern--font-lock-keywords nil)
@@ -739,11 +738,11 @@ whole buffer; otherwise, for the line at point."
                 ''(face nil invisible org-modern)
               '(org-modern--star))))))
    (when org-modern-horizontal-rule
-     `(("^[ \t]*-\\{5,\\}$" 0
-        '(face org-modern-horizontal-rule display
-               ,(if (eq org-modern-horizontal-rule t)
-                    '(space :width (- text 1))
-                  org-modern-horizontal-rule)))))
+     `(("\\(^[ \t]*-\\{5,\\}\\)\r?\n"
+        ,@(if (stringp org-modern-horizontal-rule)
+              `(1 '(face nil display ,org-modern-horizontal-rule))
+            '((1 '(face nil display " "))
+              (0 '(face org-modern-horizontal-rule)))))))
    (when org-modern-table
      '(("^[ \t]*\\(|.*|\\)[ \t]*$" (0 (org-modern--table)))))
    (when org-modern-footnote
