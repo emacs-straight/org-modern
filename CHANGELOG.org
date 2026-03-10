@@ -2,6 +2,10 @@
 #+author: Daniel Mendler
 #+language: en
 
+* Version 1.13 (2026-03-09)
+
+- Prettify ~#+caption[short caption]: ...~
+
 * Version 1.12 (2026-01-17)
 
 - =org-modern-label-border=: Support functions to compute border width.
