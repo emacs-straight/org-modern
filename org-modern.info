@@ -18,7 +18,6 @@ Modern Org Style
 * Configuration::
 * Incompatibilities::
 * Alternatives::
-* Contributions::
 
 
 File: org-modern.info,  Node: Introduction,  Next: Configuration,  Prev: Top,  Up: Top
@@ -53,11 +52,11 @@ File: org-modern.info,  Node: Configuration,  Next: Incompatibilities,  Prev: In
 2 Configuration
 ***************
 
-The package is available on GNU ELPA and MELPA.  You can install the
-package with ‘package-install’.  Then ‘org-modern’ can be enabled
-manually in an Org buffer by invoking ‘M-x org-modern-mode’.  In order
-to enable ‘org-modern’ for all your Org buffers, add ‘org-modern-mode’
-to the Org mode hooks.
+The package is available from MELPA.  You can install the package with
+‘package-install’.  Then ‘org-modern’ can be enabled manually in an Org
+buffer by invoking ‘M-x org-modern-mode’.  In order to enable
+‘org-modern’ for all your Org buffers, add ‘org-modern-mode’ to the Org
+mode hooks.
 
      ;; Option 1: Per buffer
      (add-hook 'org-mode-hook #'org-modern-mode)
@@ -131,7 +130,7 @@ File: org-modern.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Con
      which is also used by ‘org-modern’.
 
 
-File: org-modern.info,  Node: Alternatives,  Next: Contributions,  Prev: Incompatibilities,  Up: Top
+File: org-modern.info,  Node: Alternatives,  Prev: Incompatibilities,  Up: Top
 
 4 Alternatives
 **************
@@ -167,23 +166,12 @@ package.  Org-modern-indent can even style source blocks when
 ‘org-indent-mode’ is enabled.
 
 
-File: org-modern.info,  Node: Contributions,  Prev: Alternatives,  Up: Top
-
-5 Contributions
-***************
-
-Since this package is part of GNU ELPA
-(https://elpa.gnu.org/packages/org-modern.html) contributions require a
-copyright assignment to the FSF.
-
-
 Tag Table:
 Node: Top205
-Node: Introduction412
-Node: Configuration1561
-Node: Incompatibilities3949
-Node: Alternatives4620
-Node: Contributions6469
+Node: Introduction394
+Node: Configuration1543
+Node: Incompatibilities3920
+Node: Alternatives4591
 
 End Tag Table
 
