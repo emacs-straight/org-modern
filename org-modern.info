@@ -54,9 +54,9 @@ File: org-modern.info,  Node: Configuration,  Next: Incompatibilities,  Prev: In
 
 The package is available from ELPA
 (https://elpa.gnu.org/packages/org-modern.html) or MELPA
-(https://melpa.org/#/org-modern).  You can install the package with
-‘package-install’.  Then ‘org-modern’ can be enabled manually in an Org
-buffer by invoking ‘M-x org-modern-mode’.  In order to enable
+(https://releases.melpa.org/#/org-modern).  You can install the package
+with ‘package-install’.  Then ‘org-modern’ can be enabled manually in an
+Org buffer by invoking ‘M-x org-modern-mode’.  In order to enable
 ‘org-modern’ for all your Org buffers, add ‘org-modern-mode’ to the Org
 mode hooks.
 
@@ -173,8 +173,8 @@ Tag Table:
 Node: Top207
 Node: Introduction396
 Node: Configuration1545
-Node: Incompatibilities4011
-Node: Alternatives4682
+Node: Incompatibilities4020
+Node: Alternatives4691
 
 End Tag Table
 
