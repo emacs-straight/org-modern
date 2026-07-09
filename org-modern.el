@@ -89,7 +89,8 @@ star.  Set to nil to disable.  This feature is automatically disabled if
           (character :tag "Replacement character for leading stars")
           (const :tag "Do not hide stars" nil)
           (const :tag "Hide all stars" t)
-          (const :tag "Hide leading stars" leading)))
+          (const :tag "Hide and collapse leading stars" leading)
+          (character :tag "Replace leading stars by space" ?\s)))
 
 (defcustom org-modern-timestamp t
   "Prettify time stamps, e.g. <2022-03-01>.
@@ -455,7 +456,7 @@ the font.")
   "Prettify headline tags."
   (save-excursion
     (let* ((default-face (get-text-property (match-beginning 1) 'face))
-           (colon-props `(display #(":" 0 1 (face org-hide)) face ,default-face))
+           (colon-props `(display " " face ,default-face))
            (beg (match-beginning 2))
            (end (match-end 2))
            colon-beg colon-end)
@@ -596,7 +597,7 @@ whole buffer; otherwise, for the line at point."
                                            face (:inherit org-table :inverse-video t))))
            ((and org-modern-table-horizontal separator)
             (put-text-property a b 'display `(space :width (,org-modern-table-vertical))))
-           (t (put-text-property a b 'face 'org-hide)))))
+           (t (put-text-property a b 'display " ")))))
       (goto-char beg)
       (when separator
         (when (numberp org-modern-table-horizontal)

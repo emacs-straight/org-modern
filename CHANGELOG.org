@@ -2,6 +2,13 @@
 #+author: Daniel Mendler
 #+language: en
 
+* Development
+
+- ~org-modern-hide-stars~: Add custom option to replace leading stars with space.
+- Do not rely on ~org-hide~ to hide colons between tags and horizontal table
+  lines, since ~org-hide~ does not fully hide the character if the frame
+  background is transparent.
+
 * Version 1.14 (2026-05-19)
 
 - Add new customization option ~org-modern-cycle-stars~.
