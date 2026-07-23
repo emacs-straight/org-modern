@@ -5,7 +5,7 @@
 ;; Author: Daniel Mendler <mail@daniel-mendler.de>
 ;; Maintainer: Daniel Mendler <mail@daniel-mendler.de>
 ;; Created: 2022
-;; Version: 1.14
+;; Version: 1.15
 ;; Package-Requires: ((emacs "29.1") (org "9.6") (compat "31"))
 ;; URL: https://github.com/minad/org-modern
 ;; Keywords: outlines, hypermedia, text

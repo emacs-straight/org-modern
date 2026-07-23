@@ -2,7 +2,7 @@
 #+author: Daniel Mendler
 #+language: en
 
-* Development
+* Version 1.15 (2026-07-22)
 
 - ~org-modern-hide-stars~: Add custom option to replace leading stars with space.
 - Do not rely on ~org-hide~ to hide colons between tags and horizontal table
