@@ -1,4 +1,4 @@
-#+title: org-modern.el - Changelog
+#+title: org-modern.el - News
 #+author: Daniel Mendler
 #+language: en
 
