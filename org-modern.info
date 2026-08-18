@@ -130,6 +130,7 @@ File: org-modern.info,  Node: Incompatibilities,  Next: Alternatives,  Prev: Con
      TODO keywords.
    • ‘visual-wrap-prefix-mode’ relies on the ‘wrap-prefix’ text property
      which is also used by ‘org-modern’.
+   • ‘visual-line-mode’ may cause line wraps in headline tags.
 
 
 File: org-modern.info,  Node: Alternatives,  Prev: Incompatibilities,  Up: Top
@@ -174,7 +175,7 @@ Node: Top207
 Node: Introduction396
 Node: Configuration1545
 Node: Incompatibilities4020
-Node: Alternatives4691
+Node: Alternatives4760
 
 End Tag Table
 

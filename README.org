@@ -102,6 +102,7 @@ setting =line-spacing= to a pair of two numbers (see Emacs [[https://debbugs.gnu
 - =org-num-mode= interferes with the =org-modern= prettification of TODO keywords.
 - =visual-wrap-prefix-mode= relies on the =wrap-prefix= text property which is also
   used by =org-modern=.
+- =visual-line-mode= may cause line wraps in headline tags.
 
 * Alternatives
 
